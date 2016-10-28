@@ -1,3 +1,3 @@
-# Introduction to phase3
+# Introduction to FKME
 
 TODO: write [great documentation](http://jacobian.org/writing/what-to-write/)

@@ -1,4 +1,4 @@
-(ns phase3.routes.handler
+(ns verbose-spoon.routes.handler
   (:require [compojure.core :refer [defroutes GET]]
             [compojure.route :as route]
             [ring.adapter.jetty :as jetty]
