@@ -12,10 +12,8 @@
       [:h1 "Me"]
       [:div
         [:div
-          ; TODO: Change to Edit Profile Link
             (e/link-to "/edit-profile" "Edit Profile")]
         [:div
-          ; TODO: Change to Application Link
-            (e/link-to "/registration" "My Application")]
+            (e/link-to "/my-application" "My Application")]
         [:a {:href "/main"}
           [:button "Back"]]]]))

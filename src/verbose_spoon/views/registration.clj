@@ -23,7 +23,7 @@
             (f/email-field :email)]]
         [:tr
           [:td
-            (f/label :pasword "Password:")]
+            (f/label :password "Password:")]
           [:td
             (f/password-field :password)]]
         [:tr

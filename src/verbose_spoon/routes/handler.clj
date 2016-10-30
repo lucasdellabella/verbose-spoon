@@ -7,7 +7,8 @@
             [verbose-spoon.views.registration :refer [registration-page]]
             [verbose-spoon.views.main :refer [main-page]]
             [verbose-spoon.views.me :refer [me-page]]
-            [verbose-spoon.views.edit-profile :refer [edit-profile-page]]))
+            [verbose-spoon.views.edit-profile :refer [edit-profile-page]]
+            [verbose-spoon.views.my-application :refer [my-application-page]]))
 
 
 (defroutes routes
@@ -16,6 +17,7 @@
   (GET "/main" [] (main-page))
   (GET "/me" [] (me-page))
   (GET "/edit-profile" [] (edit-profile-page))
+  (GET "/my-application" [] (my-application-page))
   (route/not-found "<h1>Page not found</h1>"))
 
 (def handler
