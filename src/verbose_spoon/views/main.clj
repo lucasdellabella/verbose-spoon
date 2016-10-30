@@ -1,7 +1,11 @@
 (ns verbose-spoon.views.main
   (:require [hiccup.page :refer [html5]]
             [hiccup.form :as f]
-            [hiccup.element :as e]))
+            [hiccup.element :as e]
+            [verbose-spoon.model.test-queries :refer [major-test-query]]))
+
+(defn fetch-major-list []
+  (map :major_name (major-test-query)))
 
 (defn main-page
   []
@@ -26,7 +30,7 @@
               (f/drop-down :designation-drop ["Get", "Designations", "From", "DB"])]
           [:div
               (f/label :major "Major:")
-              (f/drop-down :major ["Get", "Majors", "From", "DB"])]
+              (f/drop-down :major (fetch-major-list))]
           [:div
               (f/label :year "Year:")
               (f/drop-down :year ["Freshman", "Sophomore", "Junior", "Senior"])

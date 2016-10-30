@@ -9,6 +9,7 @@
                  [ring/ring-defaults "0.2.1"]
                  [compojure "1.5.1"]
                  [hiccup "1.0.5"]
-                 [proto-repl "0.3.1"]]
+                 [proto-repl "0.3.1"]
+                 [mysql/mysql-connector-java "5.1.18"]]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler phase3.routes/app})
