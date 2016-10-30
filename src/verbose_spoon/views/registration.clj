@@ -8,6 +8,7 @@
     [:head
       [:title "Registration Page"]]
     [:body
+      [:h1 "New Student Registration"]
       (f/form-to [:post ""]
        [:table
         [:tr
@@ -32,4 +33,4 @@
             (f/password-field :confirmpassword)]]
         [:tr
           [:td
-            (f/submit-button "Submit")]]])]))
+            (f/submit-button "Create")]]])]))

@@ -4,12 +4,14 @@
             [ring.adapter.jetty :as jetty]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [ring.middleware.reload :refer [wrap-reload]]
-            [verbose-spoon.views.registration :refer [registration-page]]))
+            [verbose-spoon.views.registration :refer [registration-page]]
+            [verbose-spoon.views.main :refer [main-page]]))
 
 
 (defroutes routes
   (GET "/login" [] "Login page replaces this string") ;;Put your login page here
   (GET "/registration" [] (registration-page))
+  (GET "/main" [] (main-page))
   (route/not-found "<h1>Page not found</h1>"))
 
 (def handler
