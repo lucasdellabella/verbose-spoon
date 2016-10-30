@@ -12,22 +12,22 @@
        [:table
         [:tr
           [:td
-            (f/label "username" "Username:")]
+            (f/label :username "Username:")]
           [:td
             (f/text-field :username)]]
         [:tr
           [:td
-           (f/label "email" "Email:")]
+           (f/label :email "Email:")]
           [:td
             (f/email-field :email)]]
         [:tr
           [:td
-            (f/label "password" "Password:")]
+            (f/label :pasword "Password:")]
           [:td
             (f/password-field :password)]]
         [:tr
           [:td
-            (f/label "confirmpassword" "Confirm Password:")]
+            (f/label :confirmpassword "Confirm Password:")]
           [:td
             (f/password-field :confirmpassword)]]
         [:tr
