@@ -11,7 +11,8 @@
     [:body
       [:h1 "Main Page"]
       [:div
-        [:button "Me"]]
+        [:a {:href "/me"}
+          [:button "Me"]]]
       [:div
         (f/form-to [:post ""]
           [:div

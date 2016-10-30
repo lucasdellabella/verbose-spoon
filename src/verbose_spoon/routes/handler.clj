@@ -5,13 +5,15 @@
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
             [ring.middleware.reload :refer [wrap-reload]]
             [verbose-spoon.views.registration :refer [registration-page]]
-            [verbose-spoon.views.main :refer [main-page]]))
+            [verbose-spoon.views.main :refer [main-page]]
+            [verbose-spoon.views.me :refer [me-page]]))
 
 
 (defroutes routes
   (GET "/login" [] "Login page replaces this string") ;;Put your login page here
   (GET "/registration" [] (registration-page))
   (GET "/main" [] (main-page))
+  (GET "/me" [] (me-page))
   (route/not-found "<h1>Page not found</h1>"))
 
 (def handler
