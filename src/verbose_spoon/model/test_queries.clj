@@ -2,9 +2,9 @@
   (:require [clojure.java.jdbc :as j]))
 
 (def mysql-db {:dbtype "mysql"
-               :dbname "test"
+               :dbname "Phase3"
                :user "root"
-               :password ""})
+               :password "password"})
 
 ;; If there are weird bugs,
 ;; it might be because of this
@@ -13,5 +13,5 @@
 (defn major-test-query []
   (j/query mysql-db ["SELECT Major_Name FROM MAJOR"]))
 
-(defn major-test-insert []
+(defn major-test-insert [] ;;TODO: change this to EXECUTE func
   (j/query mysql-db ["INSERT INTO MAJOR VALUES (\"Business\",\"College of Business\")"]))

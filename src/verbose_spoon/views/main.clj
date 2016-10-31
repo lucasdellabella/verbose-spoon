@@ -2,10 +2,7 @@
   (:require [hiccup.page :refer [html5]]
             [hiccup.form :as f]
             [hiccup.element :as e]
-            [verbose-spoon.model.test-queries :refer [major-test-query]]))
-
-(defn fetch-major-list []
-  (map :major_name (major-test-query)))
+            [verbose-spoon.model.core :refer [fetch-major-list]]))
 
 (defn main-page
   []
@@ -45,5 +42,9 @@
               (f/reset-button "Reset")])
         [:table
           [:tr
-            [:td "Name"]
-            [:td "Type"]]]]]))
+            [:th "Name"]
+            [:th "Type"]]
+          [:a {:href "/me"}
+            [:tr
+              [:td "Sample Name"]
+              [:td "Sample Type"]]]]]]))
