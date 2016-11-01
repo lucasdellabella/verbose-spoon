@@ -1,6 +1,7 @@
 (ns verbose-spoon.views.edit-profile
   (:require [hiccup.page :refer [html5]]
-            [hiccup.form :as f]))
+            [hiccup.form :as f]
+            [verbose-spoon.model.core :refer [fetch-major-list]]))
 
 (defn edit-profile-page
   []
@@ -15,7 +16,7 @@
            [:td
              (f/label :year "Major:")]
            [:td
-             (f/drop-down :year ["Get", "Majors"])]]
+             (f/drop-down :year (fetch-major-list))]]
         [:tr
           [:td
             (f/label :year "Year:")]
