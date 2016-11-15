@@ -10,14 +10,14 @@
 ;; it might be because of this
 (Class/forName "com.mysql.jdbc.Driver")
 
-(defn major-test-query []
+(defn major-query []
   (j/query mysql-db ["SELECT Major_Name FROM MAJOR"]))
 
 (defn major-test-insert [] ;;TODO: change this to EXECUTE func
   (j/execute! mysql-db ["INSERT INTO MAJOR VALUES (\"Business\",\"College of Business\")"]))
 
-(defn designation-test-query []
+(defn designation-query []
   (j/query mysql-db ["SELECT Name FROM DESIGNATION"]))
 
-(defn category-test-query []
+(defn category-query []
   (j/query mysql-db ["SELECT Name FROM CATEGORY"]))
