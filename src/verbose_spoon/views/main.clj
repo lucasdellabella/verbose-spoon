@@ -4,7 +4,7 @@
             [hiccup.element :as e]
             [verbose-spoon.model.core :refer [fetch-major-list]]))
 
-(defn main-page
+(defn page
   []
   (html5
     [:head

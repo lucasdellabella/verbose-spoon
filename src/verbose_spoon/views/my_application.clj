@@ -8,7 +8,7 @@
     [:td project]
     [:td status]])
 
-(defn my-application-page
+(defn page
   []
   (html5
     [:head

@@ -1,4 +1,4 @@
-(ns verbose-spoon.views.edit-profile
+(ns verbose-spoon.views.view-apply-project
   (:require [hiccup.page :refer [html5]]
             [hiccup.form :as f]
             [verbose-spoon.model.core :refer [fetch-major-list]]))
@@ -7,9 +7,9 @@
   []
   (html5
     [:head
-      [:title "Edit Profile"]]
+      [:title "Insert Project Name Here"]]
     [:body
-      [:h1 "Edit Profile"]
+      [:h1 "Insert Project Name Here"]
       (f/form-to [:post ""]
        [:table
          [:tr

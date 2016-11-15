@@ -2,7 +2,7 @@
   (:require [hiccup.page :refer [html5]]
             [hiccup.form :as f]))
 
-(defn registration-page
+(defn page
   []
   (html5
     [:head

@@ -3,7 +3,7 @@
             [hiccup.form :as f]
             [hiccup.element :as e]))
 
-(defn me-page
+(defn page
   []
   (html5
     [:head
