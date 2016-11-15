@@ -14,4 +14,13 @@
   (j/query mysql-db ["SELECT Major_Name FROM MAJOR"]))
 
 (defn major-test-insert [] ;;TODO: change this to EXECUTE func
-  (j/query mysql-db ["INSERT INTO MAJOR VALUES (\"Business\",\"College of Business\")"]))
+  (j/execute! mysql-db ["INSERT INTO MAJOR VALUES (\"Business\",\"College of Business\")"]))
+
+(defn major-test-insert [] ;;TODO: change this to EXECUTE func
+  (j/execute! mysql-db ["INSERT INTO MAJOR VALUES (\"Business\",\"College of Business\")"]))
+
+(defn designation-test-query []
+  (j/query mysql-db ["SELECT Name FROM DESIGNATION"]))
+
+(defn category-test-query []
+  (j/query mysql-db ["SELECT Name FROM CATEGORY"]))
