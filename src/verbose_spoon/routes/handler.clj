@@ -10,11 +10,11 @@
                                  [me :as me]
                                  [edit-profile :as edit-profile]
                                  [my-application :as my-application]
-                                 ;[view-apply-project :as view-apply-project]
+                                 [view-apply-project :as view-apply-project]
                                  ;[view-course :as view-course]
-                                 ;[choose-functionality :as choose-functionality]
-                                 ;[view-applications :as view-applications]
                                  [view-project-report :as view-project-report]]))
+                                 [choose-functionality :as choose-functionality]
+                                 [view-applications :as view-applications]
                                  ;[view-application-report :as view-application-report]
                                  ;[add-project :as add-project]
                                  ;[add-course :as add-course]
@@ -29,14 +29,12 @@
   (GET "/me" [] (me/page))
   (GET "/edit-profile" [] (edit-profile/page))
   (GET "/my-application" [] (my-application/page))
-  ;; not yet implemented
-  ;(GET "/view-apply-project" [] (view-apply-project/page))
+  (GET "/view-apply-project" [] (view-apply-project/page))
   ;(GET "/view-course" [] (view-course/page))
   ;; The rest are the admin routes
-  ;; not yet implemented
-  ;(GET "/choose-functionality" [] (choose-functionality/page))
-  ;(GET "/view-applications" [] (view-applications/page))
   (GET "/view-project-report" [] (view-project-report/page))
+  (GET "/choose-functionality" [] (choose-functionality/page))
+  (GET "/view-applications" [] (view-applications/page))
   ;(GET "/view-application-report" [] (view-application-report/page))
   ;(GET "/add-project" [] (add-project/page))
   ;(GET "/add-course" [] (add-course/page))
