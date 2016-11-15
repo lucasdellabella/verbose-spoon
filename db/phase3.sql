@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.7.16, for Win64 (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.16, for osx10.11 (x86_64)
 --
--- Host: localhost    Database: Phase3_backup
+-- Host: localhost    Database: phase3
 -- ------------------------------------------------------
--- Server version	5.7.16-log
+-- Server version	5.7.16
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -62,6 +62,7 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
+INSERT INTO `category` VALUES ('adaptive learning'),('collaborative action'),('computing for good'),('crowd-sourced'),('doing good for your neighborhood'),('reciprocal teaching and learning'),('sustainable communities'),('technology for social good'),('urban development');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -162,6 +163,7 @@ CREATE TABLE `designation` (
 
 LOCK TABLES `designation` WRITE;
 /*!40000 ALTER TABLE `designation` DISABLE KEYS */;
+INSERT INTO `designation` VALUES ('Community'),('Sustainable Communities');
 /*!40000 ALTER TABLE `designation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -202,8 +204,8 @@ CREATE TABLE `project` (
   `Name` varchar(50) NOT NULL,
   `Description` varchar(200) DEFAULT NULL,
   `Est_Num_Students` int(11) DEFAULT NULL,
-  `Advisor_Name` varchar(50) DEFAULT NULL,
-  `Advisor_Email` varchar(50) DEFAULT NULL,
+  `Advisor_Name` varchar(50) NOT NULL,
+  `Advisor_Email` varchar(50) NOT NULL,
   `Designation_Name` varchar(50) NOT NULL,
   PRIMARY KEY (`Name`),
   KEY `Designation_Name` (`Designation_Name`),
@@ -279,7 +281,7 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
   `Username` varchar(15) NOT NULL,
-  `Password` varchar(15) DEFAULT NULL,
+  `Password` varchar(32) NOT NULL,
   `Type` varchar(15) NOT NULL,
   `GT_Email` varchar(50) NOT NULL,
   `Year` varchar(15) DEFAULT NULL,
@@ -297,6 +299,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES ('ava26','urstupid','USER','ava26@gatech.edu','sophomore',NULL),('brain11','urmom','USER','brain11@gatech.edu','freshman',NULL),('brain12','urpasswordissoobvi','USER','brain12@gatech.edu','senior',NULL),('brain17','urthiccaf','USER','brain17@gatech.edu','freshman',NULL),('brain4','urdumb','USER','brain4@gatech.edu','sophomore',NULL),('brain5','urmom','USER','brain5@gatech.edu','freshman',NULL),('drake10','urmom','USER','drake10@gatech.edu','freshman',NULL),('drake22','urepidermisisshowing','USER','drake22@gatech.edu','senior',NULL),('future14','urstupid','USER','future14@gatech.edu','freshman',NULL),('future25','urmom','USER','future25@gatech.edu','senior',NULL),('future7','urthiccaf','USER','future7@gatech.edu','freshman',NULL),('future8','urpasswordissoobvi','ADMIN','future8@gatech.edu','freshman',NULL),('jacob27','uracow','USER','jacob27@gatech.edu','sophomore',NULL),('jacob3','urdumb','ADMIN','jacob3@gatech.edu','junior',NULL),('jacob6','urmom','USER','jacob6@gatech.edu','freshman',NULL),('l4p4ance9','urpasswordissoobvi','USER','l4p4ance9@gatech.edu','freshman',NULL),('madeon19','urstupid','USER','madeon19@gatech.edu','sophomore',NULL),('mrgoogoo13','urmom','ADMIN','mrgoogoo13@gatech.edu','junior',NULL),('mrgoogoo20','urstupid','USER','mrgoogoo20@gatech.edu','junior',NULL),('olivia18','urmom','ADMIN','olivia18@gatech.edu','senior',NULL),('olivia23','uracow','ADMIN','olivia23@gatech.edu','junior',NULL),('yummy15','urdumb','USER','yummy15@gatech.edu','freshman',NULL),('yummy16','urpasswordissoobvi','USER','yummy16@gatech.edu','freshman',NULL),('yummy21','urpasswordissoobvi','USER','yummy21@gatech.edu','sophomore',NULL),('yummy24','urepidermisisshowing','USER','yummy24@gatech.edu','sophomore',NULL);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -309,4 +312,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-11-01 13:50:01
+-- Dump completed on 2016-11-15 18:24:33
