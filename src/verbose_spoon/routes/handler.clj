@@ -14,12 +14,12 @@
                                  ;[view-course :as view-course]
                                  ;[choose-functionality :as choose-functionality]
                                  ;[view-applications :as view-applications]
-                                 ;[view-project-report :as view-project-report]
+                                 [view-project-report :as view-project-report]]))
                                  ;[view-application-report :as view-application-report]
                                  ;[add-project :as add-project]
                                  ;[add-course :as add-course]
-                                 ]
-            ))
+
+
 
 ;; Later we could structure routes more restfully
 (defroutes routes
@@ -36,7 +36,7 @@
   ;; not yet implemented
   ;(GET "/choose-functionality" [] (choose-functionality/page))
   ;(GET "/view-applications" [] (view-applications/page))
-  ;(GET "/view-project-report" [] (view-project-report/page))
+  (GET "/view-project-report" [] (view-project-report/page))
   ;(GET "/view-application-report" [] (view-application-report/page))
   ;(GET "/add-project" [] (add-project/page))
   ;(GET "/add-course" [] (add-course/page))
