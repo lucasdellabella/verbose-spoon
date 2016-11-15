@@ -1,4 +1,4 @@
-(ns verbose-spoon.model.test-queries
+(ns verbose-spoon.model.queries
   (:require [clojure.java.jdbc :as j]))
 
 (def mysql-db {:dbtype "mysql"
@@ -12,9 +12,6 @@
 
 (defn major-test-query []
   (j/query mysql-db ["SELECT Major_Name FROM MAJOR"]))
-
-(defn major-test-insert [] ;;TODO: change this to EXECUTE func
-  (j/execute! mysql-db ["INSERT INTO MAJOR VALUES (\"Business\",\"College of Business\")"]))
 
 (defn major-test-insert [] ;;TODO: change this to EXECUTE func
   (j/execute! mysql-db ["INSERT INTO MAJOR VALUES (\"Business\",\"College of Business\")"]))

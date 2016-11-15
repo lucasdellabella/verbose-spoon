@@ -17,8 +17,8 @@
                                  [view-project-report :as view-project-report]
                                  [view-application-report :as view-application-report]
                                  [add-project :as add-project]
-                                 [add-course :as add-course]
-                                 ]))
+                                 [add-course :as add-course]]))
+
 ;; Later we could structure routes more restfully
 (defroutes routes
   (GET "/login" [] "Login page replaces this string") ;;Put your login page here
