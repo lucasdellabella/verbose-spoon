@@ -3,12 +3,17 @@
             [hiccup.form :as f]
             [verbose-spoon.model.core :refer [fetch-major-list]]))
 
+; (defn my-fn [[k v]]
+;   (format "myFn('%s', '%s')" k v))
+
+
 (defn page
   []
   (html5
     [:head
       [:title "Edit Profile"]
-      (include-js "/js/get-major-department.js")]
+      (include-js "/js/get-major-department.js")
+      (include-js "/js/generate-major-department-map.js")]
     [:body
       [:h1 "Edit Profile"]
       (f/form-to [:post ""]
@@ -27,7 +32,7 @@
           [:td
             (f/label :department "Department:")]
           [:td
-            (f/text-field {:readonly ""}:department "Get Department From Major")]]
+            (f/text-field {:readonly ""} :department "Get Department From Major")]]
         [:tr
           [:td
            [:a {:href "/me"}
