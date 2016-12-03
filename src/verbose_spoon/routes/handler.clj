@@ -1,6 +1,6 @@
 (ns verbose-spoon.routes.handler
   ;;(:alias 'verbose-spoon.views 'views)
-  (:require [compojure.core :refer [defroutes GET]]
+  (:require [compojure.core :refer [defroutes GET POST]]
             [compojure.route :as route]
             [ring.adapter.jetty :as jetty]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
@@ -40,7 +40,7 @@
   ;; POST routes for the pages with forms
   ;; 1. Validate inputs 2. Run appropriate query
   (POST "/add-course" req (insert-course (:params req)))
-  (POST "/add-project" req (insert-project (:params req)))
+  ;(POST "/add-project" req (insert-project (:params req)))
   ;(POST "/edit-profile" req ())
   ;(POST "/main" req ())
   ;(POST "/registration" req ())
