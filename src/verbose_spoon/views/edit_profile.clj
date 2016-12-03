@@ -3,12 +3,21 @@
             [hiccup.form :as f]
             [verbose-spoon.model.core :refer [fetch-major-list]]))
 
+
+; TO-DO:
+; (defn my-fn [[k v]]
+;   (format "addMajorDeptEntry('%s', '%s')" k v))
+;
+; (map (fn [{:keys [major_name dept_name]}] {major_name dept_name}) (major-department))
+; (apply merge *1)
+
 (defn page
   []
   (html5
     [:head
       [:title "Edit Profile"]
-      (include-js "/js/get-major-department.js")]
+      (include-js "/js/get-major-department.js")
+      (include-js "/js/generate-major-department-map.js")]
     [:body
       [:h1 "Edit Profile"]
       (f/form-to [:post ""]
@@ -16,8 +25,8 @@
          [:tr
            [:td
              (f/label :year "Major:")]
-           [:td {:onclick "myFunction()"}
-             (f/drop-down :year (fetch-major-list))]]
+           [:td
+             (f/drop-down {:onchange "getDepartment(this)"}:year (fetch-major-list))]]
         [:tr
           [:td
             (f/label :year "Year:")]
@@ -27,7 +36,7 @@
           [:td
             (f/label :department "Department:")]
           [:td
-            (f/text-field {:readonly ""}:department "Get Department From Major")]]
+            (f/text-field {:readonly ""} :department "Get Department From Major")]]
         [:tr
           [:td
            [:a {:href "/me"}
