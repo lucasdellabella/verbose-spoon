@@ -5,10 +5,10 @@
  (map :major_name (q/major-query)))
 
 (defn fetch-category-list []
- (map :category_name (q/category-query)))
+ (map :name (q/category-query)))
 
 (defn fetch-designation-list []
- (map :designation_name (q/designation-query)))
+ (map :name (q/designation-query)))
 
 ;; name is wrong
 (defn key-is-category [[k v]]
