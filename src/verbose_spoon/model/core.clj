@@ -1,11 +1,16 @@
 (ns verbose-spoon.model.core
-  (:require [verbose-spoon.model.queries :refer [major-query category-query designation-query]]))
+  (:require [verbose-spoon.model.queries :as q]))
 
 (defn fetch-major-list []
- (map :major_name (major-query)))
+ (map :major_name (q/major-query)))
 
 (defn fetch-category-list []
- (map :category_name (category-query)))
+ (map :name (q/category-query)))
 
 (defn fetch-designation-list []
- (map :designation_name (designation-query)))
+ (map :name (q/designation-query)))
+
+(defn insert-course [{:strs [coursenum coursename instructor designation numstudents] :as params}]
+  (let [categories (vals (filter (fn [[k _]] (re-matches #"category" k)) params))]
+    (q/insert-course-query coursenum coursename numstudents instructor designation)
+    (dorun (map (partial q/insert-course-is-category-query coursename) categories))))

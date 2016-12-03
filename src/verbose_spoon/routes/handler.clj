@@ -1,10 +1,12 @@
 (ns verbose-spoon.routes.handler
   ;;(:alias 'verbose-spoon.views 'views)
-  (:require [compojure.core :refer [defroutes GET]]
+  (:require [compojure.core :refer [defroutes GET POST]]
             [compojure.route :as route]
             [ring.adapter.jetty :as jetty]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.reload :refer [wrap-reload]]
+            [verbose-spoon.model.core :refer [insert-course]]
             [verbose-spoon.views [registration :as registration]
                                  [main :as main]
                                  [me :as me]
@@ -36,10 +38,18 @@
   (GET "/view-application-report" [] (view-application-report/page))
   (GET "/add-project" [] (add-project/page))
   (GET "/add-course" [] (add-course/page))
+  ;; POST routes for the pages with forms
+  ;; 1. Validate inputs 2. Run appropriate query
+  (POST "/add-course" req (insert-course (:params req)))
+  ;(POST "/add-project" req #_(str req) (insert-project (:params req)))
+  ;(POST "/edit-profile" req ())
+  ;(POST "/main" req ())
+  ;(POST "/registration" req ())
   (route/not-found "<h1>Page not found</h1>"))
 
 (def handler
   (-> #'routes
-      wrap-reload))
+      wrap-reload
+      wrap-params))
 
 (defonce server (jetty/run-jetty handler {:port 8080 :join? false}))

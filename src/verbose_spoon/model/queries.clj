@@ -22,6 +22,19 @@
 (defn category-query []
   (j/query mysql-db ["SELECT Name FROM CATEGORY"]))
 
+(defn insert-course-query [coursename coursenum instructor numstudents designation]
+  (j/execute! mysql-db [(format "INSERT INTO Course VALUES('%s', '%s', '%s', '%s', '%s')"
+                                coursename
+                                coursenum
+                                instructor
+                                numstudents
+                                designation)]))
+
+(defn insert-course-is-category-query [coursenum category]
+  (j/execute! mysql-db [(format "INSERT INTO Course_is_Category VALUES('%s', '%s')"
+                                coursenum
+                                category)]))
+
 (defn wrap-quotes [variable]
   (if (= "NULL" variable)
     variable
@@ -46,4 +59,3 @@
         majors (repeat USER-NUM "NULL")
         users (map vector usernames passwords user-types emails years majors)]
     users))
-
