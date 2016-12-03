@@ -1,5 +1,5 @@
 var myVar = {}
 
-window.onload = function getMajorDeptMap(){
+window.onload = function addMajorDeptEntry(){
     alert("Loaded");
 }

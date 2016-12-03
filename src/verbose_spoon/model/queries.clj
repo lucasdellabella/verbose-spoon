@@ -13,6 +13,9 @@
 (defn major-query []
   (j/query mysql-db ["SELECT Major_Name FROM MAJOR"]))
 
+(defn major-department []
+  (j/query mysql-db ["SELECT Major_Name, Dept_Name FROM MAJOR"]))
+
 (defn major-test-insert [] ;;TODO: change this to EXECUTE func
   (j/execute! mysql-db ["INSERT INTO MAJOR VALUES (\"Business\",\"College of Business\")"]))
 

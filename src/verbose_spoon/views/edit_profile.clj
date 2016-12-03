@@ -3,9 +3,13 @@
             [hiccup.form :as f]
             [verbose-spoon.model.core :refer [fetch-major-list]]))
 
-; (defn my-fn [[k v]]
-;   (format "myFn('%s', '%s')" k v))
 
+; TO-DO:
+; (defn my-fn [[k v]]
+;   (format "addMajorDeptEntry('%s', '%s')" k v))
+;
+; (map (fn [{:keys [major_name dept_name]}] {major_name dept_name}) (major-department))
+; (apply merge *1)
 
 (defn page
   []
