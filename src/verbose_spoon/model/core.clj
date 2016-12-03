@@ -10,11 +10,7 @@
 (defn fetch-designation-list []
  (map :name (q/designation-query)))
 
-;; name is wrong
-(defn key-is-category [[k v]]
-  (when (re-matches #"category" k) v))
-
-(defn insert-course [{:keys [coursenum coursename instructor designation numstudents] :as params}]
-  (let [categories (map key-is-category params)]
-    (q/insert-course-query coursenum coursename instructor designation numstudents)
+(defn insert-course [{:strs [coursenum coursename instructor designation numstudents] :as params}]
+  (let [categories (vals (filter (fn [[k _]] (re-matches #"category" k)) params))]
+    (q/insert-course-query coursenum coursename numstudents instructor designation)
     (dorun (map (partial q/insert-course-is-category-query coursename) categories))))

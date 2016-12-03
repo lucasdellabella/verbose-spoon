@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.7.9)
 # Database: phase3
-# Generation Time: 2016-12-03 18:47:51 +0000
+# Generation Time: 2016-12-03 21:15:34 +0000
 # ************************************************************
 
 
@@ -360,8 +360,10 @@ VALUES
 	('collaborative action','Bench Building'),
 	('crowd-sourced','Bench Building'),
 	('sustainable communities','Bench Building'),
+	('computing for good','BuzzMovie'),
 	('sustainable communities','Dank Project'),
 	('urban development','Dank Project'),
+	('collaborative action','Discussion Group: 4001'),
 	('doing good for your neighborhood','Elementary School Mentoring'),
 	('reciprocal teaching and learning','Elementary School Mentoring'),
 	('collaborative action','Epic Intentions'),
@@ -378,20 +380,28 @@ VALUES
 	('adaptive Learning','Fun Project'),
 	('collaborative action ','Fun Project'),
 	('reciprocal teaching and learning','Fun Project'),
+	('doing good for your neighborhood','Genetically Modified Dopamine'),
 	('doing good for your neighborhood','HackGT: Registration System'),
 	('technology for social good','HackGT: Registration System'),
+	('technology for social good','Hacking the Tesla'),
+	('computing for good','Instagram Redesign'),
 	('crowd-sourced','Know Your Water Project'),
 	('sustainable communities','Know Your Water Project'),
 	('collaborative action','Lit Green'),
 	('doing good for your neighborhood','Lit Green'),
+	('technology for social good','LoL Client Remake '),
+	('sustainable communities','Machine Learning with Weather'),
 	('collaborative action','O(n) Sorting'),
 	('computing for good','O(n) Sorting'),
 	('adaptive learning','Oki'),
 	('computing for good','Oki'),
 	('computing for good','Poop Analyzer'),
 	('urban development','Poop Analyzer'),
+	('collaborative action','RoboJackets'),
 	('sustainable communities','Shakespeare in Prison Project'),
 	('urban development','Shakespeare in Prison Project'),
+	('technology for social good','Smael'),
+	('technology for social good','SpotiCloud'),
 	('sustainable communities','Statue Building'),
 	('urban development','Statue Building'),
 	('doing good for your neighborhood','Swing Building'),

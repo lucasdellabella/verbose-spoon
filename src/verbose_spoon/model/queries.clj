@@ -23,16 +23,16 @@
   (j/query mysql-db ["SELECT Name FROM CATEGORY"]))
 
 (defn insert-course-query [coursename coursenum instructor numstudents designation]
-  (j/execute! mysql-db [(format "INSERT INTO Course VALUES(%s, %s, %s, %s, %s)"
+  (j/execute! mysql-db [(format "INSERT INTO Course VALUES('%s', '%s', '%s', '%s', '%s')"
                                 coursename
                                 coursenum
                                 instructor
                                 numstudents
                                 designation)]))
 
-(defn insert-course-is-category-query [coursename category]
-  (j/execute! mysql-db [(format "INSERT INTO Course_is_Category VALUES(%s, %s)"
-                                coursename
+(defn insert-course-is-category-query [coursenum category]
+  (j/execute! mysql-db [(format "INSERT INTO Course_is_Category VALUES('%s', '%s')"
+                                coursenum
                                 category)]))
 
 (defn wrap-quotes [variable]
