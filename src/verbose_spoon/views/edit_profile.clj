@@ -16,8 +16,8 @@
          [:tr
            [:td
              (f/label :year "Major:")]
-           [:td {:onclick "myFunction()"}
-             (f/drop-down :year (fetch-major-list))]]
+           [:td
+             (f/drop-down {:onchange "getDepartment(this)"}:year (fetch-major-list))]]
         [:tr
           [:td
             (f/label :year "Year:")]
