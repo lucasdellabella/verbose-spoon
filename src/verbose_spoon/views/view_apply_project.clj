@@ -9,9 +9,9 @@
       [:title #_"Insert Project Name Here"]]
     [:body
       [:h1 #_"Insert Project Name Here"]
-      [:p "Advisor: " ]
-      [:p "Description: " ]
-      [:p "Designation " ]
+      [:p "Advisor: "]
+      [:p "Description: "]
+      [:p "Designation: "]
       [:p "Category: "]
       [:p "Requirements: "]
       [:p "Estimated number of students: "]

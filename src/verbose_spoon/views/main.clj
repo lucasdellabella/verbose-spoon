@@ -2,7 +2,7 @@
   (:require [hiccup.page :refer [html5]]
             [hiccup.form :as f]
             [hiccup.element :as e]
-            [verbose-spoon.model.core :refer [fetch-major-list]]))
+            [verbose-spoon.model.core :refer [fetch-major-list fetch-category-list fetch-designation-list]]))
 
 (defn page
   []
@@ -20,11 +20,11 @@
               (f/label :title "Title:")
               (f/text-field :title)
               (f/label :category "Category:")
-              (f/drop-down :category-drop ["Function", "To", "Get", "From", "DB", "Here"])
+              (f/drop-down :category-drop (fetch-category-list))
               (e/link-to "/registration" "Add Category")]
           [:div
               (f/label :designation "Designation:")
-              (f/drop-down :designation-drop ["Get", "Designations", "From", "DB"])]
+              (f/drop-down :designation-drop (fetch-designation-list))]
           [:div
               (f/label :major "Major:")
               (f/drop-down :major (fetch-major-list))]
@@ -36,7 +36,7 @@
               (f/label :project "Course")
               (f/radio-button :project)
               (f/label :project "Both")
-              (f/radio-button :project)]
+              (f/radio-button {:checked "checked"} :project)]
           [:div
               (f/submit-button "Apply Filter")
               (f/reset-button "Reset")])

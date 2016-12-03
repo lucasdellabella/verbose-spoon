@@ -61,4 +61,3 @@
         majors (repeat USER-NUM "NULL")
         users (map vector usernames passwords user-types emails years majors)]
     users))
-

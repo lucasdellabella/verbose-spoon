@@ -34,8 +34,7 @@
           [:td
             (f/label :numstudents "Estimated Num Students:")]
           [:td
-            (f/label :numstudents "100")]]
-      ]
+            (f/label :numstudents "100")]]]
+
       [:a {:href "/main"}
-        [:button "Back"]]
-  ]))
+        [:button "Back"]]]))

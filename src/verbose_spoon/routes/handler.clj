@@ -44,6 +44,7 @@
   ;(POST "/edit-profile" req ())
   ;(POST "/main" req ())
   ;(POST "/registration" req ())
+  (route/resources "/")
   (route/not-found "<h1>Page not found</h1>"))
 
 (def handler
