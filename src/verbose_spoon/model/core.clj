@@ -14,3 +14,6 @@
   (let [categories (vals (filter (fn [[k _]] (re-matches #"category" k)) params))]
     (q/insert-course-query coursenum coursename numstudents instructor designation)
     (dorun (map (partial q/insert-course-is-category-query coursename) categories))))
+
+;(defn application-status-list [user]
+;  (map vals (application-status-query user)))

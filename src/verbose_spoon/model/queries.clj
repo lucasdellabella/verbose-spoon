@@ -24,7 +24,7 @@
 
 (defn category-query []
   (j/query mysql-db ["SELECT Name FROM CATEGORY"]))
-
+  
 (defn insert-course-query [coursename coursenum instructor numstudents designation]
   (j/execute! mysql-db [(format "INSERT INTO Course VALUES('%s', '%s', '%s', '%s', '%s')"
                                 coursename
@@ -42,7 +42,8 @@
 (defn view-course-query [course]
   (j/query mysql-db [(format "SELECT * FROM Course NATURAL JOIN Course_is_category WHERE Course_Num = '%s'" course)]))
 
-
+(defn application-status-query [user]
+  (j/query mysql-db [(format "SELECT Project_Name, Date, Status FROM APPLY where Username = %s" user)]))
 
 (defn wrap-quotes [variable]
   (if (= "NULL" variable)

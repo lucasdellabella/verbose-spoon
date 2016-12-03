@@ -8,6 +8,7 @@
             [ring.middleware.reload :refer [wrap-reload]]
             [verbose-spoon.model.core :refer [insert-course]]
             [verbose-spoon.views [registration :as registration]
+                                 [login :as login]
                                  [main :as main]
                                  [me :as me]
                                  [edit-profile :as edit-profile]
@@ -23,7 +24,7 @@
 
 ;; Later we could structure routes more restfully
 (defroutes routes
-  (GET "/login" [] "Login page replaces this string") ;;Put your login page here
+  (GET "/login" [] (login/page)) ;;Put your login page here
   (GET "/registration" [] (registration/page))
   (GET "/main" [] (main/page))
   (GET "/me" [] (me/page))
