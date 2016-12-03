@@ -6,3 +6,5 @@
     [:td project]
     [:td status]])
 
+(defn commacat [list]
+  (reduce (fn [cur next] (str cur ", " next)) list))

@@ -30,7 +30,7 @@
   (GET "/edit-profile" [] (edit-profile/page))
   (GET "/my-application" [] (my-application/page))
   (GET "/view-apply-project" [] (view-apply-project/page))
-  (GET "/view-course" [] (view-course/page))
+  (GET "/view-course/:coursenum" [coursenum] (view-course/page coursenum))
   ;; The rest are the admin routes
   (GET "/view-project-report" [] (view-project-report/page))
   (GET "/choose-functionality" [] (choose-functionality/page))

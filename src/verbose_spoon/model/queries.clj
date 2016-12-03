@@ -38,6 +38,12 @@
                                 coursenum
                                 category)]))
 
+;view-course view
+(defn view-course-query [course]
+  (j/query mysql-db [(format "SELECT * FROM Course NATURAL JOIN Course_is_category WHERE Course_Num = '%s'" course)]))
+
+
+
 (defn wrap-quotes [variable]
   (if (= "NULL" variable)
     variable
