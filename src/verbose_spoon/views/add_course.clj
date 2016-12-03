@@ -12,7 +12,7 @@
     [:body
       [:h1 "Add a Course"]
       [:div
-        (f/form-to [:post ""]
+        (f/form-to [:post "/add-course"]
           [:table
             [:tr
               [:td
@@ -49,5 +49,4 @@
           [:div
               [:a {:href "/choose-functionality"}
                 [:button "Back"]]
-              (f/submit-button "Apply Filter")
-              (f/reset-button "Reset")])]]))
+              (f/submit-button "Submit")])]]))
