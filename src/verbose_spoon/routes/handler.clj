@@ -4,6 +4,7 @@
             [compojure.route :as route]
             [ring.adapter.jetty :as jetty]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
+            [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.reload :refer [wrap-reload]]
             [verbose-spoon.model.core :refer [insert-course]]
             [verbose-spoon.views [registration :as registration]
@@ -40,7 +41,7 @@
   ;; POST routes for the pages with forms
   ;; 1. Validate inputs 2. Run appropriate query
   (POST "/add-course" req (insert-course (:params req)))
-  ;(POST "/add-project" req (insert-project (:params req)))
+  ;(POST "/add-project" req #_(str req) (insert-project (:params req)))
   ;(POST "/edit-profile" req ())
   ;(POST "/main" req ())
   ;(POST "/registration" req ())
@@ -48,6 +49,7 @@
 
 (def handler
   (-> #'routes
-      wrap-reload))
+      wrap-reload
+      wrap-params))
 
 (defonce server (jetty/run-jetty handler {:port 8080 :join? false}))
