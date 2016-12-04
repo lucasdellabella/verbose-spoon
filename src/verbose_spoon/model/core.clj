@@ -40,3 +40,7 @@
 (defn update-profile [{:strs [year major]} username]
   (q/update-profile-query major year username)
   "~~Updated~~")
+
+;; NOTIFY USER WHEN USER HAS ALREADY BEEN REJECTED
+(defn update-apply-project [projectname currentuser]
+  (when-not (empty? (q/check-rejected-application-query projectname currentuser)) (q/update-apply-query projectname currentuser)))

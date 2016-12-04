@@ -1,6 +1,7 @@
 (ns verbose-spoon.views.view-apply-project
   (:require [hiccup.page :refer [html5]]
             [hiccup.form :as f]
+            [cemerick.url :refer [url-encode]]
             [verbose-spoon.views.core :refer [commacat]]
             [verbose-spoon.model.queries :refer [view-project-query view-project-category-query view-project-requirement-query]]))
 
@@ -15,6 +16,7 @@
         [:title "View Course Page"]]
       [:body
         [:h1 name]
+        (f/form-to [:post (str "/view-apply-project/" (url-encode project_name))]
         [:table
           [:tr
             [:td
@@ -45,12 +47,11 @@
             [:td
               (f/label :numstudents "Estimated Num Students:")]
             [:td
-              (f/label :numstudents est_num_students)]]
-        ]
+              (f/label :numstudents est_num_students)]]]
         [:a {:href "/main"}
           [:button "Back"]]
-        [:a {:href "/main"}
-          [:button "Apply"]]
+        [:a #_{:href "/main"}
+          (f/submit-button "Apply")])
       ]
     )
   )

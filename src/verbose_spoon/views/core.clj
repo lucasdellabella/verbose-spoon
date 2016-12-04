@@ -7,4 +7,6 @@
     [:td status]])
 
 (defn commacat [list]
-  (reduce (fn [cur next] (str cur ", " next)) list))
+  (if (empty? list)
+    list
+    (reduce (fn [cur next] ()(str cur ", " next)) list)))

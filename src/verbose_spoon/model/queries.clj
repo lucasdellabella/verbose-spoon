@@ -10,6 +10,9 @@
 ;; it might be because of this
 (Class/forName "com.mysql.jdbc.Driver")
 
+(defn today []
+  (.format (java.text.SimpleDateFormat. "yyyy-MM-dd") (new java.util.Date)))
+
 (defn major-query []
   (j/query mysql-db ["SELECT Major_Name FROM MAJOR"]))
 
@@ -111,6 +114,17 @@
 
 (defn update-profile-query [major year username]
   (j/execute! mysql-db [(format "UPDATE User SET Major='%s', Year='%s' WHERE Username='%s'" major year username)]))
+
+(defn check-rejected-application-query [projectname username]
+  (j/query mysql-db [(format "SELECT * FROM Apply WHERE Project_name='%s' AND Username='%s' AND Status='Rejected'"
+                             projectname
+                             username)]))
+
+(defn update-apply-query [projectname username]
+  (j/query mysql-db [(format "INSERT INTO Apply VALUES('%s', '%s', %s, 'Pending')"
+                             projectname
+                             username
+                             (today))]))
 
 (defn wrap-quotes [variable]
   (if (= "NULL" variable)

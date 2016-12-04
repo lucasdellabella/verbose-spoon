@@ -10,7 +10,8 @@
             ;[verbose-spoon.model.core :refer [apply-project]]
             [verbose-spoon.model.core :refer [insert-course
                                               insert-project
-                                              update-profile]]
+                                              update-profile
+                                              update-apply-project]]
             [verbose-spoon.views [registration :as registration]
                                  [login :as login]
                                  [main :as main]
@@ -52,7 +53,7 @@
   (POST "/edit-profile" req (update-profile (:params req) @current-user))
   ;(POST "/main" req ())
   ;(POST "/registration" req ())
-  ;(POST "/view-apply-project" req (apply-project (:params req)))
+  (POST "/view-apply-project/:project_name" req (update-apply-project (-> req :route-params :project_name) @current-user))
   (route/resources "/")
   (route/not-found "<h1>Page not found</h1>"))
 
