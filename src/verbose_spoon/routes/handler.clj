@@ -13,7 +13,8 @@
                                               update-profile
                                               update-apply-project
                                               creds-correct?
-                                              attempt-to-register]]
+                                              attempt-to-register
+                                              accept-reject-application]]
             [verbose-spoon.views [registration :as registration]
                                  [login :as login]
                                  [main :as main]
@@ -55,7 +56,7 @@
   (POST "/edit-profile" req (update-profile (:params req) @current-user))
   ;(POST "/main" req ())
   (POST "/view-apply-project/:project_name" req (update-apply-project (-> req :route-params :project_name) @current-user))
-  (POST "/view-applications" req (str req) #_(accept-reject-application (:params req)))
+  (POST "/view-applications" req (accept-reject-application (:params req)))
   (POST "/registration" req (attempt-to-register (:params req)))
   (POST "/login" req (when true (reset! current-user (-> req :params (get "username")))))
   (route/resources "/")

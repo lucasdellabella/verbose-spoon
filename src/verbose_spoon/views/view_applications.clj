@@ -5,7 +5,7 @@
 
 (defn app-row [project major year status username]
   [:tr
-    #_[:td (f/radio-button :applications "false" (format "%s|%s" username project))]
+    [:td (f/radio-button :application "false" (format "%s|%s" username project))]
     [:td project]
     [:td major]
     [:td year]
@@ -18,7 +18,7 @@
                   [:th "Applicant Year"]
                   [:th "Status"]] :table)))
 
-(defn build-app-row [{:keys [project_name major year status username]}] 
+(defn build-app-row [{:keys [project_name major year status username]}]
   (app-row project_name major year status username))
 
 (defn page
@@ -29,9 +29,9 @@
         [:title "View Applications"]]
       [:body
         [:h1 "My Application"]
-        (f/form-to "/view-applications"
+        (f/form-to [:post "/view-applications"]
           (wrap-table view-applications-results)
           [:div
-            [:a {:href "/choose-functionality"} [:button "Back"]]
-            [:a {:href "/view-applications"} (f/submit-button "Accept")]
-            [:a {:href "/view-applications"} (f/submit-button "Reject")]])])))
+            [:a {:href "/view-applications"} (f/submit-button {:name "submission-type"} "Accept")]
+            [:a {:href "/view-applications"} (f/submit-button {:name "submission-type"} "Reject")]])]
+      [:a {:href "/choose-functionality"} [:button "Back"]])))
