@@ -28,6 +28,10 @@
 (defn category-query []
   (j/query mysql-db ["SELECT Name FROM CATEGORY"]))
 
+(defn user-password-query [username]
+  (j/query mysql-db [(format "SELECT Username, Password FROM User WHERE Username='%s'"
+                             username)]))
+
 ;(defn department-for-major-query [major]
 ;  (j/query mysql-db [(format "SELECT Dept_Name FROM Major WHERE Major_Name = '%s'" major)]))
 
@@ -66,7 +70,7 @@
 
 ;view-applications
 (defn view-applications-query []
-  (j/query mysql-db ["SELECT Apply.Project_name, User.Major, User.Year, Apply.Status FROM Apply JOIN User ON Apply.Username = User.Username"]))
+  (j/query mysql-db ["SELECT User.Username, Apply.Project_name, User.Major, User.Year, Apply.Status FROM Apply JOIN User ON Apply.Username = User.Username"]))
 (defn view-applications-accept[user project]
   (j/execute! mysql-db [(format "UPDATE Apply SET Status = 'Accepted' WHERE Username = '%s' AND Project_Name = '%s'" user project)]))
 (defn view-applications-reject[user project]
@@ -125,6 +129,15 @@
                              projectname
                              username
                              (today))]))
+
+(defn insert-register-user [username password email]
+  (j/execute! mysql-db [(format "INSERT INTO User VALUES('%s', '%s', 'USER', '%s', NULL, NULL)"
+                                username
+                                password
+                                email)]))
+
+(defn check-user-email-exists-query [email]
+  (j/query mysql-db [(format "SELECT * FROM User WHERE Gt_Email='%s'" email)]))
 
 (defn wrap-quotes [variable]
   (if (= "NULL" variable)

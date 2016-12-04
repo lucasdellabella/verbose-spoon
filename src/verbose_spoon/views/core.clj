@@ -9,4 +9,4 @@
 (defn commacat [list]
   (if (empty? list)
     list
-    (reduce (fn [cur next] ()(str cur ", " next)) list)))
+    (reduce (fn [cur next] (str cur ", " next)) list)))

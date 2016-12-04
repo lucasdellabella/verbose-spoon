@@ -9,11 +9,14 @@
     [:head
       [:title "Login"]]
     [:body
+     (f/form-to [:post "/login"]
       [:h1 "Login"]
       [:p "Username"]
-      [:input {:type "text"}]
+      [:input {:type "text" :name "username"}]
       [:p "Password"]
-      [:input {:type "text"}]
+      [:input {:type "text" :name "password"}]
       [:div
-        [:button "Login"]
-        [:button "Register"]]]))
+        [:a {:href "/me"}
+         (f/submit-button "Submit")]
+        [:a {:href "/register"}
+         [:button "Register"]]])]))

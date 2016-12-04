@@ -9,7 +9,7 @@
       [:title "Registration Page"]]
     [:body
       [:h1 "New Student Registration"]
-      (f/form-to [:post ""]
+      (f/form-to [:post "/registration"]
        [:table
         [:tr
           [:td

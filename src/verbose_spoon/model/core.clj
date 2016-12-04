@@ -1,5 +1,18 @@
 (ns verbose-spoon.model.core
-  (:require [verbose-spoon.model.queries :as q]))
+  (:require [ring.util.response :refer [response]]
+    [verbose-spoon.model.queries :as q]))
+
+(defonce gatech-email-regex #"([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gatech([\.])edu")
+
+(defn creds-correct? [{:keys [username password]}]
+  (= password (-> username q/user-password-query :password)))
+
+(defn attempt-to-register [{:strs [username password confirmpassword email]}]
+  (cond
+    (not (re-find gatech-email-regex email)) (response "The email must be a gatech email")
+    (seq (q/check-user-email-exists-query email)) (response "This account already exists")
+    (not= password confirmpassword) (response "Passwords don't match")
+    :else (q/insert-register-user username password email)))
 
 (defn fetch-major-list []
  (map :major_name (q/major-query)))
@@ -44,3 +57,5 @@
 ;; NOTIFY USER WHEN USER HAS ALREADY BEEN REJECTED
 (defn update-apply-project [projectname currentuser]
   (when-not (empty? (q/check-rejected-application-query projectname currentuser)) (q/update-apply-query projectname currentuser)))
+
+#_(defn accept-reject-application [])
