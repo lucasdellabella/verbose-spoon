@@ -36,3 +36,7 @@
     (q/insert-project-query projectname description numstudents advisorname advisoremail designation)
     (dorun (map (partial q/insert-project-is-category-query projectname) categories))
     (dorun (map (partial q/insert-project-requirement-query projectname) reqs))))
+
+(defn update-profile [{:strs [year major]} username]
+  (q/update-profile-query major year username)
+  "~~Updated~~")

@@ -13,7 +13,7 @@
 (defn major-query []
   (j/query mysql-db ["SELECT Major_Name FROM MAJOR"]))
 
-(defn major-department []
+(defn major-department-query []
   (j/query mysql-db ["SELECT Major_Name, Dept_Name FROM MAJOR"]))
 
 (defn major-test-insert [] ;;TODO: change this to EXECUTE func
@@ -94,6 +94,9 @@
   (j/execute! mysql-db [(format "INSERT INTO Requirement VALUES('%s', '%s')"
                                 projectname
                                 req)]))
+
+(defn update-profile-query [major year username]
+  (j/execute! mysql-db [(format "UPDATE User SET Major='%s', Year='%s' WHERE Username='%s'" major year username)]))
 
 (defn wrap-quotes [variable]
   (if (= "NULL" variable)

@@ -8,7 +8,9 @@
             [ring.middleware.reload :refer [wrap-reload]]
             [verbose-spoon.model.core :refer [insert-course]]
             ;[verbose-spoon.model.core :refer [apply-project]]
-            [verbose-spoon.model.core :refer [insert-course insert-project]]
+            [verbose-spoon.model.core :refer [insert-course
+                                              insert-project
+                                              update-profile]]
             [verbose-spoon.views [registration :as registration]
                                  [login :as login]
                                  [main :as main]
@@ -23,6 +25,8 @@
                                  [view-application-report :as view-application-report]
                                  [add-project :as add-project]
                                  [add-course :as add-course]]))
+
+(def current-user (atom "ava26"))
 
 ;; Later we could structure routes more restfully
 (defroutes routes
@@ -45,7 +49,7 @@
   ;; 1. Validate inputs 2. Run appropriate query
   (POST "/add-course" req (insert-course (:params req)))
   (POST "/add-project" req #_(str req) (insert-project (:params req)))
-  ;(POST "/edit-profile" req ())
+  (POST "/edit-profile" req (update-profile (:params req) @current-user))
   ;(POST "/main" req ())
   ;(POST "/registration" req ())
   ;(POST "/view-apply-project" req (apply-project (:params req)))

@@ -1,26 +1,33 @@
 (ns verbose-spoon.views.edit-profile
   (:require [hiccup.page :refer [html5 include-js]]
             [hiccup.form :as f]
-            [verbose-spoon.model.core :refer [fetch-major-list]]))
+            [hiccup.element :as e]
+            [verbose-spoon.model.core :refer [fetch-major-list]]
+            [verbose-spoon.model.queries :refer [major-department-query]]))
 
+(defn format-as-MajorDeptEntry [[k v]]
+  (format "addMajorDeptEntry('%s', '%s');\n" k v))
 
-; TO-DO:
-; (defn my-fn [[k v]]
-;   (format "addMajorDeptEntry('%s', '%s')" k v))
-;
-; (map (fn [{:keys [major_name dept_name]}] {major_name dept_name}) (major-department))
-; (apply merge *1)
+(defn build-major-to-dept-JSO []
+  (->> (major-department-query)
+       ; build major to dept pairs
+       (map (fn [{:keys [major_name dept_name]}] [major_name dept_name]))
+       ; convert each pair to a js fn call string
+       (map format-as-MajorDeptEntry)
+       ; put them all inside of a script element
+       (#(conj % :script))
+       (vec)))
 
 (defn page
   []
   (html5
     [:head
       [:title "Edit Profile"]
-      (include-js "/js/get-major-department.js")
-      (include-js "/js/generate-major-department-map.js")]
+      (include-js "/js/generate-major-department-map.js")
+      (build-major-to-dept-JSO)]
     [:body
       [:h1 "Edit Profile"]
-      (f/form-to [:post ""]
+      (f/form-to [:post "/edit-profile"]
        [:table
          [:tr
            [:td
@@ -36,8 +43,11 @@
           [:td
             (f/label :department "Department:")]
           [:td
-            (f/text-field {:readonly ""} :department "Get Department From Major")]]
+            [:h6 {:id "dept-id" :name "department"} "Get Department From Major"]]]
         [:tr
           [:td
            [:a {:href "/me"}
-            (f/submit-button "Back")]]]])]))
+            (f/submit-button "Submit")]]
+          [:td
+           [:a {:href "/me"}
+            [:button "Back"]]]]])]))
