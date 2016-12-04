@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.7.9)
 # Database: phase3
-# Generation Time: 2016-12-04 02:28:53 +0000
+# Generation Time: 2016-12-04 22:57:22 +0000
 # ************************************************************
 
 
@@ -52,6 +52,31 @@ VALUES
 
 /*!40000 ALTER TABLE `apply` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table apply_accepted_view
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `apply_accepted_view`;
+
+CREATE TABLE `apply_accepted_view` (
+   `project_name` VARCHAR(50) NOT NULL,
+   `status` VARCHAR(15) NULL DEFAULT NULL
+) ENGINE=MyISAM;
+
+
+
+# Dump of table apply_percent_view
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `apply_percent_view`;
+
+CREATE TABLE `apply_percent_view` (
+   `project_name` VARCHAR(50) NOT NULL,
+   `num_applicants` BIGINT(21) NOT NULL DEFAULT '0',
+   `acceptance_rate` DECIMAL(27) NULL DEFAULT NULL
+) ENGINE=MyISAM;
+
 
 
 # Dump of table category
@@ -299,6 +324,31 @@ VALUES
 UNLOCK TABLES;
 
 
+# Dump of table major_concat_view
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `major_concat_view`;
+
+CREATE TABLE `major_concat_view` (
+   `project_name` VARCHAR(50) NOT NULL,
+   `top_majors` VARCHAR(341) NULL DEFAULT NULL
+) ENGINE=MyISAM;
+
+
+
+# Dump of table majors_view
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `majors_view`;
+
+CREATE TABLE `majors_view` (
+   `project_name` VARCHAR(50) NOT NULL,
+   `major` VARCHAR(50) NULL DEFAULT NULL,
+   `num_majors` BIGINT(21) NOT NULL DEFAULT '0'
+) ENGINE=MyISAM;
+
+
+
 # Dump of table project
 # ------------------------------------------------------------
 
@@ -522,7 +572,7 @@ VALUES
 	('mrgoogoo20','urstupid','USER','mrgoogoo20@gatech.edu','junior','Computer Science'),
 	('olivia18','urmom','ADMIN','olivia18@gatech.edu','',NULL),
 	('olivia23','uracow','ADMIN','olivia23@gatech.edu','',NULL),
-	('yummy15','urdumb','USER','yummy15@gatech.edu','freshman','History, Technology, and Society'),
+	('yummy15','urdumb','USER','yummy15@gatech.edu','freshman','Biomedical Engineering'),
 	('yummy16','urpasswordissoobvi','USER','yummy16@gatech.edu','freshman','Mechanical Engineering'),
 	('yummy21','urpasswordissoobvi','USER','yummy21@gatech.edu','sophomore','Physics'),
 	('yummy24','urepidermisisshowing','USER','yummy24@gatech.edu','sophomore','Business Administration');
@@ -531,6 +581,52 @@ VALUES
 UNLOCK TABLES;
 
 
+
+
+# Replace placeholder table for majors_view with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `majors_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `majors_view`
+AS SELECT
+   `apply`.`Project_Name` AS `project_name`,
+   `user`.`Major` AS `major`,count(`user`.`Major`) AS `num_majors`
+FROM (`user` join `apply`) where (`user`.`Username` = `apply`.`Username`) group by `apply`.`Project_Name`,`user`.`Major` order by `apply`.`Project_Name`,`num_majors` desc;
+
+
+# Replace placeholder table for major_concat_view with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `major_concat_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `major_concat_view`
+AS SELECT
+   `majors_view`.`project_name` AS `project_name`,substring_index(group_concat(`majors_view`.`major` separator '/'),'/',3) AS `top_majors`
+FROM `majors_view` group by `majors_view`.`project_name`;
+
+
+# Replace placeholder table for apply_percent_view with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `apply_percent_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `apply_percent_view`
+AS SELECT
+   `apply`.`Project_Name` AS `project_name`,count(`apply`.`Project_Name`) AS `num_applicants`,(((select count(0)
+FROM `apply_accepted_view` where (`apply_accepted_view`.`project_name` = `apply`.`Project_Name`)) * 100) / count(`apply`.`Project_Name`)) AS `acceptance_rate` from `apply` group by `apply`.`Project_Name`;
+
+
+# Replace placeholder table for apply_accepted_view with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `apply_accepted_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `apply_accepted_view`
+AS SELECT
+   `apply`.`Project_Name` AS `project_name`,
+   `apply`.`Status` AS `status`
+FROM `apply` where (`apply`.`Status` = 'Accepted');
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
