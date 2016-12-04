@@ -1,11 +1,11 @@
 (ns verbose-spoon.model.core
   (:require [ring.util.response :refer [response]]
-    [verbose-spoon.model.queries :as q]))
+            [verbose-spoon.model.queries :as q]))
 
 (defonce gatech-email-regex #"([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gatech([\.])edu")
 
-(defn creds-correct? [{:keys [username password]}]
-  (= password (-> username q/user-password-query :password)))
+(defn creds-correct? [username password]
+  (= password (-> username q/user-password-query first :password)))
 
 (defn attempt-to-register [{:strs [username password confirmpassword email]}]
   (cond

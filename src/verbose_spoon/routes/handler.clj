@@ -58,7 +58,9 @@
   (POST "/view-apply-project/:project_name" req (update-apply-project (-> req :route-params :project_name) @current-user))
   (POST "/view-applications" req (accept-reject-application (:params req)))
   (POST "/registration" req (attempt-to-register (:params req)))
-  (POST "/login" req (when true (reset! current-user (-> req :params (get "username")))))
+  (POST "/login" req (let [username (-> req :params (get "username"))
+                           password (-> req :params (get "password"))]
+                       (when (creds-correct? username password) (reset! current-user username))))
   (route/resources "/")
   (route/not-found "<h1>Page not found</h1>"))
 
