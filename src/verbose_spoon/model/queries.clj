@@ -43,7 +43,7 @@
   (j/execute! mysql-db [(format "INSERT INTO Course_is_Category VALUES('%s', '%s')"
                                 coursenum
                                 category)]))
-
+;view-project-report
 (defn view-project-report []
   (j/query mysql-db ["SELECT Project_name, COUNT(Project_name) as Applicants FROM Apply GROUP BY Project_name ORDER BY COUNT(Project_name) DESC LIMIT 10"]))
 
@@ -60,6 +60,15 @@
 
 (defn view-project-requirement-query [project_name]
   (j/query mysql-db [(format "SELECT Requirement_type FROM Requirement WHERE Project_name = '%s'" project_name)]))
+
+;view-applications
+(defn view-applications-query []
+  (j/query mysql-db ["SELECT Apply.Project_name, User.Major, User.Year, Apply.Status FROM Apply JOIN User ON Apply.Username = User.Username"]))
+(defn view-applications-accept[user project]
+  (j/execute! mysql-db [(format "UPDATE Apply SET Status = 'Accepted' WHERE Username = '%s' AND Project_Name = '%s'" user project)]))
+(defn view-applications-reject[user project]
+  (j/execute! mysql-db [(format "UPDATE Apply SET Status = 'Rejected' WHERE Username = '%s' AND Project_Name = '%s'" user project)]))
+
 
 (defn application-status-query [user]
   (j/query mysql-db [(format "SELECT Project_Name, Date, Status FROM APPLY where Username = %s" user)]))
