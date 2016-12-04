@@ -25,6 +25,9 @@
 (defn category-query []
   (j/query mysql-db ["SELECT Name FROM CATEGORY"]))
 
+;(defn department-for-major-query [major]
+;  (j/query mysql-db [(format "SELECT Dept_Name FROM Major WHERE Major_Name = '%s'" major)]))
+
 (defn insert-course-query [coursename coursenum instructor numstudents designation]
   (j/execute! mysql-db [(format "INSERT INTO Course VALUES('%s', '%s', '%s', '%s', '%s')"
                                 coursename
@@ -44,6 +47,14 @@
 ;view-course view
 (defn view-course-query [course]
   (j/query mysql-db [(format "SELECT * FROM Course NATURAL JOIN Course_is_category WHERE Course_Num = '%s'" course)]))
+
+;view-apply-project view
+(defn view-project-query [project]
+  (j/query mysql-db [(format "SELECT * FROM Project WHERE Name = '%s'" project)]))
+(defn view-project-category-query [project_name]
+  (j/query mysql-db [(format "SELECT Category_name FROM Project_is_category WHERE Project_name = '%s'" project_name)]))
+(defn view-project-requirement-query [project_name]
+  (j/query mysql-db [(format "SELECT Requirement_type FROM Requirement WHERE Project_name = '%s'" project_name)]))
 
 (defn application-status-query [user]
   (j/query mysql-db [(format "SELECT Project_Name, Date, Status FROM APPLY where Username = %s" user)]))

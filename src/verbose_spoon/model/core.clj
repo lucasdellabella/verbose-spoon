@@ -15,5 +15,7 @@
     (q/insert-course-query coursenum coursename numstudents instructor designation)
     (dorun (map (partial q/insert-course-is-category-query coursename) categories))))
 
+;(defn apply-project [{:strs []}])
+
 ;(defn application-status-list [user]
 ;  (map vals (application-status-query user)))

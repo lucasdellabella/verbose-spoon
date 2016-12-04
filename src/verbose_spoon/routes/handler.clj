@@ -7,6 +7,7 @@
             [ring.middleware.params :refer [wrap-params]]
             [ring.middleware.reload :refer [wrap-reload]]
             [verbose-spoon.model.core :refer [insert-course]]
+            ;[verbose-spoon.model.core :refer [apply-project]]
             [verbose-spoon.views [registration :as registration]
                                  [login :as login]
                                  [main :as main]
@@ -30,7 +31,7 @@
   (GET "/me" [] (me/page))
   (GET "/edit-profile" [] (edit-profile/page))
   (GET "/my-application" [] (my-application/page))
-  (GET "/view-apply-project" [] (view-apply-project/page))
+  (GET "/view-apply-project/:project_name" [project_name] (view-apply-project/page project_name))
   (GET "/view-course/:coursenum" [coursenum] (view-course/page coursenum))
   ;; The rest are the admin routes
   (GET "/view-project-report" [] (view-project-report/page))
@@ -46,6 +47,7 @@
   ;(POST "/edit-profile" req ())
   ;(POST "/main" req ())
   ;(POST "/registration" req ())
+  ;(POST "/view-apply-project" req (apply-project (:params req)))
   (route/resources "/")
   (route/not-found "<h1>Page not found</h1>"))
 

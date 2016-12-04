@@ -9,10 +9,9 @@
       [:title "Choose Functionality"]]
     [:body
       [:h1 "Choose Functionality"]
-      [:a {:href "REPLACE"} "View Applications"] [:br]
-      [:a {:href "REPLACE"} "View Popular Project Reports"] [:br]
-      [:a {:href "REPLACE"} "View Application Report"] [:br]
-      [:a {:href "REPLACE"} "Add a Project"] [:br]
-      [:a {:href "REPLACE"} "Add a Course"] [:br]
-      [:a {:href "REPLACE"} [:button "Apply"]] [:br]]))
-
+      [:a {:href "/view-applications"} "View Applications"] [:br]
+      [:a {:href "/view-project-report"} "View Popular Project Reports"] [:br]
+      [:a {:href "/view-application-report"} "View Application Report"] [:br]
+      [:a {:href "/add-project"} "Add a Project"] [:br]
+      [:a {:href "/add-course"} "Add a Course"] [:br]
+      [:a {:href "/login"} [:button "Logout"]] [:br]]))

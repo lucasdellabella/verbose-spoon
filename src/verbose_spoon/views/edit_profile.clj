@@ -24,9 +24,9 @@
        [:table
          [:tr
            [:td
-             (f/label :year "Major:")]
+             (f/label :major "Major:")]
            [:td
-             (f/drop-down {:onchange "getDepartment(this)"}:year (fetch-major-list))]]
+             (f/drop-down {:onchange "getDepartment(this)"} :major (fetch-major-list))]]
         [:tr
           [:td
             (f/label :year "Year:")]
