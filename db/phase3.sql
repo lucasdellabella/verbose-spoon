@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.7.9)
 # Database: phase3
-# Generation Time: 2016-12-03 21:15:34 +0000
+# Generation Time: 2016-12-04 02:28:53 +0000
 # ************************************************************
 
 
@@ -36,6 +36,22 @@ CREATE TABLE `apply` (
   CONSTRAINT `apply_ibfk_2` FOREIGN KEY (`Project_Name`) REFERENCES `project` (`Name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+LOCK TABLES `apply` WRITE;
+/*!40000 ALTER TABLE `apply` DISABLE KEYS */;
+
+INSERT INTO `apply` (`Username`, `Project_Name`, `Date`, `Status`)
+VALUES
+	('ava26','Oki','2016-10-03','Pending'),
+	('brain11','Oki','2016-10-03','Pending'),
+	('drake10','BuzzMovie','2016-12-02','Accepted'),
+	('jacob27','BuzzMovie','2016-08-29','Pending'),
+	('madeon19','Poop Analyzer','2016-11-10','Pending'),
+	('yummy15','Poop Analyzer','2016-11-10','Rejected'),
+	('yummy21','Poop Analyzer','2016-09-30','Accepted'),
+	('yummy24','Poop Analyzer','2016-10-28','Pending');
+
+/*!40000 ALTER TABLE `apply` ENABLE KEYS */;
+UNLOCK TABLES;
 
 
 # Dump of table category
