@@ -22,8 +22,8 @@
           [:th
             "Project Name"]
           [:th
-            "Status"]]
-        (application-row "16/8/30" "Excel Current Events" "Approved")
-        (application-row "16/9/2" "Know Your Water" "Pending")]
+            "Status"]
+        ]
+      ];(map (fn [x] (apply application-row x)) (application-status-list "ava26"))]
       [:a {:href "/me"}
         [:button "Back"]]]))

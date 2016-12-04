@@ -24,7 +24,7 @@
 
 (defn category-query []
   (j/query mysql-db ["SELECT Name FROM CATEGORY"]))
-  
+
 (defn insert-course-query [coursename coursenum instructor numstudents designation]
   (j/execute! mysql-db [(format "INSERT INTO Course VALUES('%s', '%s', '%s', '%s', '%s')"
                                 coursename
@@ -37,6 +37,9 @@
   (j/execute! mysql-db [(format "INSERT INTO Course_is_Category VALUES('%s', '%s')"
                                 coursenum
                                 category)]))
+
+(defn view-project-report []
+  (j/query mysql-db ["SELECT Project_name, COUNT(Project_name) as Applicants FROM Apply GROUP BY Project_name ORDER BY COUNT(Project_name) DESC LIMIT 10"]))
 
 ;view-course view
 (defn view-course-query [course]
