@@ -69,6 +69,9 @@
 (defn view-applications-reject[user project]
   (j/execute! mysql-db [(format "UPDATE Apply SET Status = 'Rejected' WHERE Username = '%s' AND Project_Name = '%s'" user project)]))
 
+;my-application
+(defn my-application-query [user]
+  (j/query mysql-db [(format "SELECT Date, Project_name, Status FROM Apply WHERE Username = '%s'" user)]))
 
 (defn application-status-query [user]
   (j/query mysql-db [(format "SELECT Project_Name, Date, Status FROM APPLY where Username = %s" user)]))

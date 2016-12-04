@@ -1,29 +1,26 @@
 (ns verbose-spoon.views.my-application
   (:require [hiccup.page :refer [html5]]
-            [hiccup.form :as f]))
+            [hiccup.form :as f]
+            [verbose-spoon.model.queries :refer [my-application-query]]            ))
 
-(defn application-row [date project status]
+(defn app-row [date project status]
   [:tr
     [:td date]
     [:td project]
     [:td status]])
 
+(defn wrap-table [l]
+    (vec (conj l [:tr [:th "Date"] [:th "Project Name"] [:th "Status"]] :table)))
+
 (defn page
   []
+  ; I HARDCODED A USER "AVA26" TO THIS QUERY
+  (let [my-application-results (map (fn [map] (app-row (:date map) (:project_name map) (:status map))) (my-application-query "ava26"))]
   (html5
     [:head
       [:title "My Application"]]
     [:body
       [:h1 "My Application"]
-      [:table
-        [:tr
-          [:th
-            "Date"]
-          [:th
-            "Project Name"]
-          [:th
-            "Status"]
-        ]
-      ];(map (fn [x] (apply application-row x)) (application-status-list "ava26"))]
+      (wrap-table my-application-results)
       [:a {:href "/me"}
-        [:button "Back"]]]))
+        [:button "Back"]]])))
