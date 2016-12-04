@@ -53,7 +53,7 @@
 
 ;view-apply-project view
 (defn view-project-query [project]
-  (j/query mysql-db [(format "SELECT * FROM Project WHERE Name = '%s'" project)]))
+  (j/query mysql-db [(format "select * from project where name = '%s'" project)]))
 
 (defn view-project-category-query [project_name]
   (j/query mysql-db [(format "SELECT Category_name FROM Project_is_category WHERE Project_name = '%s'" project_name)]))
@@ -75,6 +75,20 @@
 
 (defn application-status-query [user]
   (j/query mysql-db [(format "SELECT Project_Name, Date, Status FROM APPLY where Username = %s" user)]))
+
+;view-application-report
+(defn view-application-report-query []
+  (j/query mysql-db ["SELECT DISTINCT Project_name FROM Apply"]))
+
+(defn view-application-report-num-applications-query [name]
+  (j/query mysql-db [(format "SELECT COUNT(*) as Count FROM Apply WHERE Project_name = '%s'" name)]))
+
+(defn view-application-report-num-accepted-query [name]
+  (j/query mysql-db [(format "SELECT COUNT(*) as Count FROM Apply WHERE Project_name = '%s' AND Status = 'Accepted'" name)]))
+
+(defn view-application-report-top-majors-query [name]
+  (j/query mysql-db [(format "SELECT Major, COUNT(Major) as Count FROM Apply NATURAL JOIN User WHERE Project_name = '%s' GROUP BY Major HAVING COUNT(Major) > 0 ORDER BY 2 DESC LIMIT 3" name)]))
+
 
 (defn insert-project-query [projectname description advisoremail advisorname numstudents designation]
   (j/execute! mysql-db [(format "INSERT INTO Project VALUES('%s', '%s', '%s', '%s', '%s', '%s')"
