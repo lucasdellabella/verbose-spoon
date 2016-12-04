@@ -28,6 +28,9 @@
 ;(defn department-for-major-query [major]
 ;  (j/query mysql-db [(format "SELECT Dept_Name FROM Major WHERE Major_Name = '%s'" major)]))
 
+(defn department-query []
+  (j/query mysql-db ["SELECT Dept_Name FROM DEPARTMENT"]))
+
 (defn insert-course-query [coursename coursenum instructor numstudents designation]
   (j/execute! mysql-db [(format "INSERT INTO Course VALUES('%s', '%s', '%s', '%s', '%s')"
                                 coursename
@@ -51,13 +54,34 @@
 ;view-apply-project view
 (defn view-project-query [project]
   (j/query mysql-db [(format "SELECT * FROM Project WHERE Name = '%s'" project)]))
+
 (defn view-project-category-query [project_name]
   (j/query mysql-db [(format "SELECT Category_name FROM Project_is_category WHERE Project_name = '%s'" project_name)]))
+
 (defn view-project-requirement-query [project_name]
   (j/query mysql-db [(format "SELECT Requirement_type FROM Requirement WHERE Project_name = '%s'" project_name)]))
 
 (defn application-status-query [user]
   (j/query mysql-db [(format "SELECT Project_Name, Date, Status FROM APPLY where Username = %s" user)]))
+
+(defn insert-project-query [projectname description advisoremail advisorname numstudents designation]
+  (j/execute! mysql-db [(format "INSERT INTO Project VALUES('%s', '%s', '%s', '%s', '%s', '%s')"
+                                projectname
+                                description
+                                advisoremail
+                                advisorname
+                                numstudents
+                                designation)]))
+
+(defn insert-project-is-category-query [projectname category]
+  (j/execute! mysql-db [(format "INSERT INTO Project_is_Category VALUES('%s', '%s')"
+                                category
+                                projectname)]))
+
+(defn insert-project-requirement-query [projectname req]
+  (j/execute! mysql-db [(format "INSERT INTO Requirement VALUES('%s', '%s')"
+                                projectname
+                                req)]))
 
 (defn wrap-quotes [variable]
   (if (= "NULL" variable)

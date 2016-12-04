@@ -1,7 +1,11 @@
 (ns verbose-spoon.views.add-project
   (:require [hiccup.page :refer [html5]]
             [hiccup.form :as f]
-            [hiccup.element :as e]))
+            [hiccup.element :as e]
+            [verbose-spoon.model.core :refer [fetch-major-list
+                                              fetch-category-list
+                                              fetch-designation-list
+                                              fetch-department-list]]))
 
 (defn page
   []
@@ -11,39 +15,40 @@
     [:body
       [:h1 "Add a Project"]
       [:div
-        (f/form-to [:post ""]
+        (f/form-to [:post "/add-project"]
           [:div
-            (f/label :project-name "Project Name:")
-            (f/text-field :project-name)]
+            (f/label :projectname "Project Name:")
+            (f/text-field :projectname)]
           [:div
-            (f/label :advisor "Advisor:")
-            (f/text-field :advisor)]
+            (f/label :advisorname "Advisor:")
+            (f/text-field :advisorname)]
           [:div
-            (f/label :advisor-email "Advisor Email:")
-            (f/text-field :advisor-email)]
+            (f/label :advisoremail "Advisor Email:")
+            (f/text-field :advisoremail)]
           [:div
             (f/label :description "Description:")
             (f/text-area :description)]
           [:div
             (f/label :category "Category:")
-            (f/drop-down :category ["Function", "To", "Get", "All", "Categories", "Here"])
+            (f/drop-down :category (fetch-category-list))
             (e/link-to "/main" "Add New Category")] ;; TODO: make javascript function
           [:div
             (f/label :designation "Designation:")
-            (f/drop-down :designation-drop ["Get", "Designations", "From", "DB"])]
+            (f/drop-down :designation (fetch-designation-list))]
           [:div
-            (f/label :num-students "Estimated # of students")
-            (f/text-field :num-students)] ;; need JS to make sure input is number]
+            (f/label :numstudents "Estimated # of students")
+            (f/text-field :numstudents)] ;; need JS to make sure input is number]
           [:div
-            (f/label :major-requirement "Major Requirement:")
-            (f/drop-down :major-requirement ["Get", "Major", "Requirements"])]
+            (f/label :majorreq "Major Requirement:")
+            (f/drop-down :majorreq (conj (fetch-major-list) ""))]
           [:div
-            (f/label :year-requirement "Year Requirement:")
-            (f/drop-down :year-requirement ["Get", "Year", "Requirements"])]
+            (f/label :yearreq "Year Requirement:")
+            (f/drop-down :yearreq ["" "Freshman" "Sophomore" "Junior" "Senior"])]
           [:div
-            (f/label :deparment-requiremnt "Department Requirement:")
-            (f/drop-down :department-requiremtn ["Get", "Department", "Requirements"])])
+            (f/label :departmentreq "Department Requirement:")
+            (f/drop-down :departmentreq (conj (fetch-department-list) ""))]
+          (f/submit-button "Submit"))
         [:div
           [:a {:href "/choose-functionality"}
             [:button "Back"]]
-          (f/submit-button "Submit")]]]))
+          ]]]))

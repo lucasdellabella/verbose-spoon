@@ -8,6 +8,7 @@
             [ring.middleware.reload :refer [wrap-reload]]
             [verbose-spoon.model.core :refer [insert-course]]
             ;[verbose-spoon.model.core :refer [apply-project]]
+            [verbose-spoon.model.core :refer [insert-course insert-project]]
             [verbose-spoon.views [registration :as registration]
                                  [login :as login]
                                  [main :as main]
@@ -43,7 +44,7 @@
   ;; POST routes for the pages with forms
   ;; 1. Validate inputs 2. Run appropriate query
   (POST "/add-course" req (insert-course (:params req)))
-  ;(POST "/add-project" req #_(str req) (insert-project (:params req)))
+  (POST "/add-project" req #_(str req) (insert-project (:params req)))
   ;(POST "/edit-profile" req ())
   ;(POST "/main" req ())
   ;(POST "/registration" req ())
