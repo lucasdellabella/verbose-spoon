@@ -1,5 +1,5 @@
 (ns verbose-spoon.views.add-course
-  (:require [hiccup.page :refer [html5]]
+  (:require [hiccup.page :refer [html5 include-js]]
             [hiccup.form :as f]
             [hiccup.element :as e]
             [verbose-spoon.model.core :refer [fetch-major-list fetch-designation-list fetch-category-list]]))
@@ -8,12 +8,13 @@
   []
   (html5
     [:head
-      [:title "Add Course Page"]]
+      [:title "Add Course Page"]
+      (include-js "/js/add-category.js")]
     [:body
       [:h1 "Add a Course"]
       [:div
         (f/form-to [:post "/add-course"]
-          [:table
+          [:table {:id "table"}
             [:tr
               [:td
                 (f/label :coursenum "Course Number:")]
@@ -34,13 +35,13 @@
                 (f/label :designation "Designation:")]
               [:td
                 (f/drop-down :designation (fetch-designation-list))]]
-            [:tr
+            [:tr {:id "category"}
               [:td
                 (f/label :category "Category:")]
               [:td
                 (f/drop-down :category (fetch-category-list))]
               [:td
-                [:a {:href ""} "Add new Category"]]]
+                [:a {:onclick "addElement()" :href "#"} "Add new Category"]]]
             [:tr
               [:td
                 (f/label :numstudents "Estimated Num Students")]
