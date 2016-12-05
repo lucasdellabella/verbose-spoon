@@ -62,8 +62,7 @@
   (POST "/view-applications" req (do (accept-reject-application (:params req))
                                      (redirect "/choose-functionality")))
   ;; if attempt to register fails, don't redirect to login
-  (POST "/registration" req (do (attempt-to-register (:params req))
-                                (redirect "/login")))
+  (POST "/registration" req (do (attempt-to-register (:params req))))
   (POST "/login" req (let [username (-> req :params (get "username"))
                            password (-> req :params (get "password"))]
                        (if (creds-correct? username password)

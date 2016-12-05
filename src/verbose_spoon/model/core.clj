@@ -9,10 +9,13 @@
 
 (defn attempt-to-register [{:strs [username password confirmpassword email]}]
   (cond
-    (not (re-find gatech-email-regex email)) (response "The email must be a gatech email")
-    (seq (q/check-user-email-exists-query email)) (response "This account already exists")
-    (not= password confirmpassword) (response "Passwords don't match")
-    :else (q/insert-register-user username password email)))
+    (seq (q/check-user-name-exists-query username)) (response "The username already exists!")
+    (not (re-find gatech-email-regex email)) (response "The email must be a gatech email!")
+    (seq (q/check-user-email-exists-query email)) (response "This account already exists!")
+    (= password "") (response "Password cannot be empty!")
+    (not= password confirmpassword) (response "Passwords don't match!")
+    :else (do (q/insert-register-user username password email)
+            (response "Successful Registration!"))))
 
 (defn fetch-major-list []
  (map :major_name (q/major-query)))

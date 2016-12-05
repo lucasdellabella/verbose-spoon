@@ -137,15 +137,19 @@
                              projectname
                              username
                              (today))]))
-
+;Registration
 (defn insert-register-user [username password email]
   (j/execute! mysql-db [(format "INSERT INTO User VALUES('%s', '%s', 'USER', '%s', NULL, NULL)"
                                 username
                                 password
                                 email)]))
 
+(defn check-user-name-exists-query [username]
+  (j/query mysql-db [(format "SELECT * FROM User WHERE Username='%s'" username)]))
+
 (defn check-user-email-exists-query [email]
   (j/query mysql-db [(format "SELECT * FROM User WHERE Gt_Email='%s'" email)]))
+;End registration
 
 (defn wrap-quotes [variable]
   (if (= "NULL" variable)
