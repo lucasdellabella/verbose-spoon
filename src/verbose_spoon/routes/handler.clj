@@ -51,8 +51,8 @@
   (GET "/add-course" [] (add-course/page))
   ;; POST routes for the pages with forms
   ;; 1. Validate inputs 2. Run appropriate query
-  (POST "/add-course" req (do (insert-course (:params req))
-                              (redirect "/choose-functionality")))
+  (POST "/add-course" req (str req) (do (insert-course (:params req))
+                                        (redirect "/choose-functionality")))
   (POST "/add-project" req (do (insert-project (:params req))
                                (redirect "/choose-functionality")))
   (POST "/edit-profile" req (do (update-profile (:params req) @current-user)

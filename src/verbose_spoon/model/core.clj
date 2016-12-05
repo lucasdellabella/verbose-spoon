@@ -30,7 +30,7 @@
  (map :dept_name (q/department-query)))
 
 (defn take-categories [params]
-  (filter (fn [[k _]] (re-matches #"category" k)) params))
+  (filter (fn [[k _]] (re-matches #"category.*" k)) params))
 
 (defn insert-course [{:strs [coursenum coursename instructor designation numstudents] :as params}]
   (let [categories (-> params take-categories vals)]
