@@ -6,6 +6,7 @@
             [verbose-spoon.model.core :refer [fetch-major-list fetch-designation-list fetch-category-list]]
             [verbose-spoon.views.core :refer [commacat]]))
 
+; Move these functions outta here
 (defn format-categories []
   (apply str (map (fn [l] (str l "','")) (fetch-category-list))))
 
