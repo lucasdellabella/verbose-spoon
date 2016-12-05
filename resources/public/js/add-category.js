@@ -9,7 +9,7 @@ function addElement () {
   newTableRow.appendChild(newContent); //add the text node to the newly created div.
 	console.log(newTableRow);
   // add the newly created element and its content into the DOM
-  var currentDiv = document.getElementById("table");
+  var currentDiv = document.getElementById("category");
 	console.log(currentDiv);
   currentDiv.insertBefore(newTableRow, currentDiv.childNodes[0]);
 }
