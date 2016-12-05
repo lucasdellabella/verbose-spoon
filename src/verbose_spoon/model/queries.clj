@@ -38,7 +38,7 @@
 (defn department-query []
   (j/query mysql-db ["SELECT Dept_Name FROM DEPARTMENT"]))
 
-(defn insert-course-query [coursename coursenum instructor numstudents designation]
+(defn insert-course-query [coursenum coursename instructor numstudents designation]
   (j/execute! mysql-db [(format "INSERT INTO Course VALUES('%s', '%s', '%s', '%s', '%s')"
                                 coursename
                                 coursenum
