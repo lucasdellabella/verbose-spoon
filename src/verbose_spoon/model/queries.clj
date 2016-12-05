@@ -13,6 +13,14 @@
 (defn today []
   (.format (java.text.SimpleDateFormat. "yyyy-MM-dd") (new java.util.Date)))
 
+; for edit-profile
+(defn user-major-query [username]
+  (j/query mysql-db [(format "SELECT Major FROM User where Username = '%s'" username)]))
+(defn user-year-query [username]
+  (j/query mysql-db [(format "SELECT Year FROM User where Username = '%s'" username)]))
+(defn department-only-query [username]
+  (j/query mysql-db [(format "SELECT Dept_Name FROM User join MAJOR where user.major = major.Major_name and username = '%s'" username)]))
+
 (defn major-query []
   (j/query mysql-db ["SELECT Major_Name FROM MAJOR"]))
 

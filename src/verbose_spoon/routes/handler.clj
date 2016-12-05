@@ -38,7 +38,7 @@
   (GET "/registration" [] (registration/page))
   (GET "/main" [] (main/page))
   (GET "/me" [] (me/page))
-  (GET "/edit-profile" [] (edit-profile/page))
+  (GET "/edit-profile" [] (edit-profile/page @current-user))
   (GET "/my-application" [] (my-application/page @current-user))
   (GET "/view-apply-project/:project_name" [project_name] (view-apply-project/page project_name))
   (GET "/view-course/:coursenum" [coursenum] (view-course/page coursenum))
