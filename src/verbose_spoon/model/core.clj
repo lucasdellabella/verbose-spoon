@@ -43,7 +43,7 @@
 ;  (map vals (application-status-query user)))
 
 (defn insert-project [{:strs [projectname advisorname advisoremail description designation numstudents majorreq yearreq departmentreq] :as params}]
-  (let [categories (-> params take-categories vals)
+  (let [categories (-> params take-categories vals set)
         ; remove any nonreqs and prefix the existing ones
         reqs (remove empty? #{(when-not (empty? majorreq) (str "M:" majorreq))
                               (when-not (empty? yearreq) (str "Y:" yearreq))
