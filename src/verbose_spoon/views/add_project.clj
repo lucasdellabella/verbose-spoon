@@ -1,5 +1,5 @@
 (ns verbose-spoon.views.add-project
-  (:require [hiccup.page :refer [html5]]
+  (:require [hiccup.page :refer [html5 include-js]]
             [hiccup.form :as f]
             [hiccup.element :as e]
             [verbose-spoon.model.core :refer [fetch-major-list
@@ -7,11 +7,19 @@
                                               fetch-designation-list
                                               fetch-department-list]]))
 
+; Move these functions outta here
+(defn format-categories []
+  (apply str (map (fn [l] (str l "','")) (fetch-category-list))))
+
+(defn create-categories-js-func []
+  (str "addCategory(['" (format-categories) "'])"))
+
 (defn page
   []
   (html5
     [:head
-      [:title "Add a Project"]]
+      [:title "Add a Project"]
+      (include-js "/js/add-category.js")]
     [:body
       [:h1 "Add a Project"]
       [:div
@@ -28,10 +36,10 @@
           [:div
             (f/label :description "Description:")
             (f/text-area :description)]
-          [:div
+          [:div {:id "category"}
             (f/label :category "Category:")
             (f/drop-down :category (fetch-category-list))
-            (e/link-to "/main" "Add New Category")] ;; TODO: make javascript function
+            [:a {:onclick (create-categories-js-func) :href "#"} "Add new Category"]            [:tr]]
           [:div
             (f/label :designation "Designation:")
             (f/drop-down :designation (fetch-designation-list))]
@@ -50,5 +58,4 @@
           (f/submit-button "Submit"))
         [:div
           [:a {:href "/choose-functionality"}
-            [:button "Back"]]
-          ]]]))
+            [:button "Back"]]]]]))

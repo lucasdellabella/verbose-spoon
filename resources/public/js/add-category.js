@@ -11,7 +11,7 @@ function addCategory (options) {
     el.value = opt;
     select.appendChild(el);
   }
-  
+
   // add the newly created element and its content into the DOM
   var currentEl = document.getElementById("category");
   currentEl.insertBefore(select, currentEl.lastChild);
