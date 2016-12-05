@@ -18,5 +18,6 @@
       [:div
         [:a {:href "/me"}
          (f/submit-button "Submit")]
-        [:a {:href "/register"}
-         [:button "Register"]]])]))
+        ])[:a {:href "/registration"}
+         [:button "Register"]]
+      ]))
