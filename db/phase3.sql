@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.7.9)
 # Database: phase3
-# Generation Time: 2016-12-04 22:57:22 +0000
+# Generation Time: 2016-12-05 01:28:09 +0000
 # ************************************************************
 
 
@@ -263,6 +263,61 @@ VALUES
 
 /*!40000 ALTER TABLE `designation` ENABLE KEYS */;
 UNLOCK TABLES;
+
+
+# Dump of table main_course_view
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `main_course_view`;
+
+CREATE TABLE `main_course_view` (
+   `Name` VARCHAR(50) NOT NULL,
+   `Designation_name` VARCHAR(50) NOT NULL,
+   `Category_name` VARCHAR(50) NOT NULL,
+   `Type` VARCHAR(6) NOT NULL DEFAULT ''
+) ENGINE=MyISAM;
+
+
+
+# Dump of table main_project_course_type_view
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `main_project_course_type_view`;
+
+CREATE TABLE `main_project_course_type_view` (
+   `Name` VARCHAR(50) NOT NULL DEFAULT '',
+   `Type` VARCHAR(7) NOT NULL DEFAULT ''
+) ENGINE=MyISAM;
+
+
+
+# Dump of table main_project_view
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `main_project_view`;
+
+CREATE TABLE `main_project_view` (
+   `Name` VARCHAR(50) NOT NULL,
+   `Designation_name` VARCHAR(50) NOT NULL,
+   `Category_name` VARCHAR(50) NOT NULL,
+   `Type` VARCHAR(7) NOT NULL DEFAULT ''
+) ENGINE=MyISAM;
+
+
+
+# Dump of table main_view
+# ------------------------------------------------------------
+
+DROP VIEW IF EXISTS `main_view`;
+
+CREATE TABLE `main_view` (
+   `Name` VARCHAR(50) NOT NULL DEFAULT '',
+   `Designation_name` VARCHAR(50) NOT NULL DEFAULT '',
+   `Category_name` VARCHAR(50) NOT NULL DEFAULT '',
+   `Requirement_type` VARCHAR(50) NULL DEFAULT NULL,
+   `Type` VARCHAR(7) NOT NULL DEFAULT ''
+) ENGINE=MyISAM;
+
 
 
 # Dump of table major
@@ -583,6 +638,20 @@ UNLOCK TABLES;
 
 
 
+# Replace placeholder table for main_course_view with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `main_course_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `main_course_view`
+AS SELECT
+   `phase3`.`course`.`Name` AS `Name`,
+   `phase3`.`course`.`Designation_Name` AS `Designation_name`,
+   `phase3`.`course_is_category`.`Category_Name` AS `Category_name`,
+   `coursetype`.`Type` AS `Type`
+FROM ((`phase3`.`course` join `phase3`.`course_is_category` on((`phase3`.`course`.`Course_Num` = `phase3`.`course_is_category`.`Course_Num`))) join (select 'Course' AS `Type`) `CourseType`);
+
+
 # Replace placeholder table for majors_view with correct view syntax
 # ------------------------------------------------------------
 
@@ -593,6 +662,20 @@ AS SELECT
    `apply`.`Project_Name` AS `project_name`,
    `user`.`Major` AS `major`,count(`user`.`Major`) AS `num_majors`
 FROM (`user` join `apply`) where (`user`.`Username` = `apply`.`Username`) group by `apply`.`Project_Name`,`user`.`Major` order by `apply`.`Project_Name`,`num_majors` desc;
+
+
+# Replace placeholder table for main_project_view with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `main_project_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `main_project_view`
+AS SELECT
+   `phase3`.`project`.`Name` AS `Name`,
+   `phase3`.`project`.`Designation_Name` AS `Designation_name`,
+   `phase3`.`project_is_category`.`Category_Name` AS `Category_name`,
+   `projecttype`.`Type` AS `Type`
+FROM ((`phase3`.`project` join `phase3`.`project_is_category` on((`phase3`.`project`.`Name` = `phase3`.`project_is_category`.`Project_Name`))) join (select 'Project' AS `Type`) `ProjectType`);
 
 
 # Replace placeholder table for major_concat_view with correct view syntax
@@ -615,6 +698,33 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 AS SELECT
    `apply`.`Project_Name` AS `project_name`,count(`apply`.`Project_Name`) AS `num_applicants`,(((select count(0)
 FROM `apply_accepted_view` where (`apply_accepted_view`.`project_name` = `apply`.`Project_Name`)) * 100) / count(`apply`.`Project_Name`)) AS `acceptance_rate` from `apply` group by `apply`.`Project_Name`;
+
+
+# Replace placeholder table for main_project_course_type_view with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `main_project_course_type_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `main_project_course_type_view`
+AS SELECT
+   `projecttable`.`Name` AS `Name`,
+   `projecttable`.`Type` AS `Type`
+FROM (select distinct `CARTESIAN`.`Name` AS `Name`,`projecttype`.`Type` AS `Type` from (`phase3`.`project` `CARTESIAN` join (select 'Project' AS `Type`) `ProjectType`)) `ProjectTable` union (select distinct `CARTESIAN`.`Name` AS `Name`,`coursetype`.`Type` AS `Type` from (`phase3`.`course` `CARTESIAN` join (select 'Course' AS `Type`) `CourseType`)) order by `Name`;
+
+
+# Replace placeholder table for main_view with correct view syntax
+# ------------------------------------------------------------
+
+DROP TABLE `main_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `main_view`
+AS SELECT
+   `combinedtable`.`Name` AS `Name`,
+   `combinedtable`.`Designation_name` AS `Designation_name`,
+   `combinedtable`.`Category_name` AS `Category_name`,
+   `phase3`.`requirement`.`Requirement_Type` AS `Requirement_type`,
+   `combinedtable`.`Type` AS `Type`
+FROM (((select `main_course_view`.`Name` AS `Name`,`main_course_view`.`Designation_name` AS `Designation_name`,`main_course_view`.`Category_name` AS `Category_name`,`main_course_view`.`Type` AS `Type` from `phase3`.`main_course_view`) union select `main_project_view`.`Name` AS `Name`,`main_project_view`.`Designation_name` AS `Designation_name`,`main_project_view`.`Category_name` AS `Category_name`,`main_project_view`.`Type` AS `Type` from `phase3`.`main_project_view`) `CombinedTable` left join `phase3`.`requirement` on(((`combinedtable`.`Name` = `phase3`.`requirement`.`Project_Name`) and (`combinedtable`.`Type` = 'Project')))) order by `combinedtable`.`Name`;
 
 
 # Replace placeholder table for apply_accepted_view with correct view syntax
