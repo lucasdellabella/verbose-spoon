@@ -1,4 +1,4 @@
-function addElement () {
+function addCategory (options) {
   // create a new div element
   // and give it some content
   var newTableRow = document.createElement("td");
@@ -6,9 +6,6 @@ function addElement () {
 
   // create select drop-down
   select = document.createElement("select");
-
-
-  var options = ["1", "2", "3", "4", "5"];
 
   for (var i = 0; i < options.length; i++) {
     var opt = options[i];
