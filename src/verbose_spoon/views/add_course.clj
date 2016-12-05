@@ -41,7 +41,7 @@
               [:td
                 (f/drop-down :category (fetch-category-list))]
               [:td
-                [:a {:onclick (str "addCategory(['test', 'test2'])" "") :href "#"} "Add new Category"]]]
+                [:a {:onclick (str "addCategory(" "['test', 'test2']" ")") :href "#"} "Add new Category"]]]
             [:tr
               [:td
                 (f/label :numstudents "Estimated Num Students")]
