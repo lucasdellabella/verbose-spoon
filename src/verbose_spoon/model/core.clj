@@ -35,7 +35,7 @@
 (defn insert-course [{:strs [coursenum coursename instructor designation numstudents] :as params}]
   (let [categories (-> params take-categories vals)]
     (q/insert-course-query coursenum coursename numstudents instructor designation)
-    (dorun (map (partial q/insert-course-is-category-query coursename) categories))))
+    (dorun (map (partial q/insert-course-is-category-query coursenum) categories))))
 
 ;(defn apply-project [{:strs []}])
 
