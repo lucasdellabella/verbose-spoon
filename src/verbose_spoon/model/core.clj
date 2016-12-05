@@ -33,7 +33,7 @@
   (filter (fn [[k _]] (re-matches #"category.*" k)) params))
 
 (defn insert-course [{:strs [coursenum coursename instructor designation numstudents] :as params}]
-  (let [categories (-> params take-categories vals)]
+  (let [categories (-> params take-categories vals set)]
     (q/insert-course-query coursenum coursename numstudents instructor designation)
     (dorun (map (partial q/insert-course-is-category-query coursenum) categories))))
 
