@@ -58,8 +58,7 @@
   (POST "/edit-profile" req (do (update-profile (:params req) @current-user)
                                 (redirect "/me")))
   ;(POST "/main" req ())
-  (POST "/view-apply-project/:project_name" req (do (update-apply-project (-> req :route-params :project_name) @current-user)
-                                                    (redirect "/main")))
+  (POST "/view-apply-project/:project_name" req (do (update-apply-project (-> req :route-params :project_name) @current-user) (redirect "/main")))
   (POST "/view-applications" req (do (accept-reject-application (:params req))
                                      (redirect "/choose-functionality")))
   ;; if attempt to register fails, don't redirect to login
@@ -78,8 +77,8 @@
 (defn wrap-auth [handler]
   (fn [request]
     (if (or (some? @current-user)
-            (-> request :uri (= "/login"))
-            (-> request :uri (= "/registration")))
+            (-> request :uri (= "/registration"))
+            (-> request :uri (= "/login")))
       (handler request)
       (response "Please log in to access this page."))))
 
