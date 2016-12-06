@@ -12,9 +12,9 @@
      (f/form-to [:post "/login"]
       [:h1 "Login"]
       [:p "Username"]
-      [:input {:type "text" :name "username"}]
+      [:input {:type "text" :name "username" :required ""}]
       [:p "Password"]
-      [:input {:type "text" :name "password"}]
+      [:input {:type "text" :name "password" :required ""}]
       [:div
         [:a {:href "/me"}
          (f/submit-button "Submit")]
