@@ -16,6 +16,7 @@
     (not (re-find gatech-email-regex email)) (response "The email must be a gatech email!")
     (seq (q/check-user-email-exists-query email)) (response "This account already exists!")
     (= password "") (response "Password cannot be empty!")
+    (= username "") (response "Username cannot be empty!")
     (not= password confirmpassword) (response "Passwords don't match!")
     :else (do (q/insert-register-user username password email)
             (response "Successful Registration!"))))
