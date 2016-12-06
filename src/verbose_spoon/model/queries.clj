@@ -176,7 +176,8 @@
   (let [mv "SELECT DISTINCT Main_View.Name, Course_Num, Main_View.Designation_name, Main_View.Category_Name, Main_View.Requirement_Type, Main_View.Type FROM Main_View LEFT OUTER JOIN Course ON Main_View.Name = Course.Name "
         major-sub "(SELECT * FROM Main_View WHERE Requirement_Type='M:%s') m "
         year-sub "(SELECT * FROM Main_View WHERE Requirement_Type='Y:%s') y "
-        need-where? (if (or designation major year categories itype) true nil)]
+        need-where? (if (or designation major year categories itype) true nil)
+        ]
   (cond
     (and (nil? major) (nil? year)) mv
     (nil? major) (str mv "," (format year-sub year) (if need-where?
@@ -202,6 +203,17 @@
         year (if (= year "") nil year)
         categories (remove (partial = "") categories)
         itype (if (= itype "Both") nil itype)
+        dept (when-not (nil? major)
+               (reduce (fn [agg {:keys [major_name dept_name]}] (if (= major_name major)
+                                                                  (conj agg dept_name)
+                                                                  agg)) [] (major-department-query)))
+        dept-req-projects (when-not (nil? major) (j/query mysql-db [(format "SELECT * FROM Requirement WHERE Requirement_type='D:%s'" (first dept))]))
+        dept-req-tuples (map (fn [{:keys [project_name requirement_type]}] {:name project_name
+                                                                            :course_num nil
+                                                                            :designation_name nil
+                                                                            :category_name nil
+                                                                            :requirement_type requirement_type
+                                                                            :type "Project"}) dept-req-projects)
         query-part (build-subtables conj-where-or-and designation major year categories itype)
         query-part (if designation (format (str query-part (conj-where-or-and "Main_View.Designation_name = '%s' ")) designation) query-part)
         query-part (cond
@@ -209,9 +221,9 @@
                     (= itype "Course") (str query-part (conj-where-or-and "Main_View.Type = 'Course' "))
                     :else query-part)
         query-part (reduce #(str %1 (format (conj-where-or-and "Main_View.Category_Name = '%s' " "OR ") %2)) query-part categories)
+
         query-final (str query-part (conj-where-or-and "Main_View.Name LIKE '%") title "%'")]
-    (println query-final)
-    (j/query mysql-db [query-final])))
+    (concat dept-req-tuples (j/query mysql-db [query-final]))))
 
 (defn wrap-quotes [variable]
   (if (= "NULL" variable)
