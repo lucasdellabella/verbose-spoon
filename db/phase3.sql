@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.7.9)
 # Database: phase3
-# Generation Time: 2016-12-05 01:28:09 +0000
+# Generation Time: 2016-12-06 08:13:35 +0000
 # ************************************************************
 
 
@@ -41,14 +41,21 @@ LOCK TABLES `apply` WRITE;
 
 INSERT INTO `apply` (`Username`, `Project_Name`, `Date`, `Status`)
 VALUES
-	('ava26','Oki','2016-10-03','Pending'),
-	('brain11','Oki','2016-10-03','Pending'),
-	('drake10','BuzzMovie','2016-12-02','Accepted'),
-	('jacob27','BuzzMovie','2016-08-29','Pending'),
-	('madeon19','Poop Analyzer','2016-11-10','Pending'),
-	('yummy15','Poop Analyzer','2016-11-10','Rejected'),
-	('yummy21','Poop Analyzer','2016-09-30','Accepted'),
-	('yummy24','Poop Analyzer','2016-10-28','Pending');
+	('ava26','Oki','2016-12-06','Pending'),
+	('ava26','SpotiCloud','2016-12-06','Accepted'),
+	('brain10','BuzzMovie','2016-12-06','Accepted'),
+	('brain10','Oki','2016-12-06','Rejected'),
+	('brain12','Discussion Group: 4001','2016-12-06','Pending'),
+	('brain12','Excel Current Events','2016-12-06','Rejected'),
+	('brain12','Oki','2016-12-06','Accepted'),
+	('brain5','Dank Project','2016-12-06','Pending'),
+	('future14','Genetically Modified Dopamine','2016-12-06','Rejected'),
+	('future25','Genetically Modified Dopamine','2016-12-06','Pending'),
+	('jacob27','BuzzMovie','2016-12-06','Rejected'),
+	('jacob27','Oki','2016-12-06','Pending'),
+	('jacob6','Genetically Modified Dopamine','2016-12-06','Accepted'),
+	('l4p4ance9','Oki','2016-12-06','Rejected'),
+	('yummy15','Genetically Modified Dopamine','2016-12-06','Accepted');
 
 /*!40000 ALTER TABLE `apply` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -275,18 +282,6 @@ CREATE TABLE `main_course_view` (
    `Designation_name` VARCHAR(50) NOT NULL,
    `Category_name` VARCHAR(50) NOT NULL,
    `Type` VARCHAR(6) NOT NULL DEFAULT ''
-) ENGINE=MyISAM;
-
-
-
-# Dump of table main_project_course_type_view
-# ------------------------------------------------------------
-
-DROP VIEW IF EXISTS `main_project_course_type_view`;
-
-CREATE TABLE `main_project_course_type_view` (
-   `Name` VARCHAR(50) NOT NULL DEFAULT '',
-   `Type` VARCHAR(7) NOT NULL DEFAULT ''
 ) ENGINE=MyISAM;
 
 
@@ -555,7 +550,7 @@ VALUES
 	('BuzzMovie','M:Computer Science'),
 	('BuzzMovie','Y:Junior'),
 	('Dank Project','D:College of Business'),
-	('Dank Project','Y:Senior'),
+	('Dank Project','Y:Freshman'),
 	('Discussion Group: 4001','D:College of Computing'),
 	('Discussion Group: 4001','Y:Senior'),
 	('ESW Hydroponics/Urban Farming Project','Y:Junior'),
@@ -563,8 +558,8 @@ VALUES
 	('Excel Current Events','Y:Senior'),
 	('Excel Peer Support Network','M:Computer Science'),
 	('Excel Peer Support Network','Y:Senior'),
+	('Genetically Modified Dopamine','D:College of Engineering'),
 	('Genetically Modified Dopamine','M:Biomedical Engineering'),
-	('Genetically Modified Dopamine','Y:Senior'),
 	('Hacking the Tesla','D:College of Computing'),
 	('Hacking the Tesla','M:Computer Science'),
 	('Instagram Redesign','D:College of Design'),
@@ -606,31 +601,34 @@ LOCK TABLES `user` WRITE;
 
 INSERT INTO `user` (`Username`, `Password`, `Type`, `GT_Email`, `Year`, `Major`)
 VALUES
-	('ava26','urstupid','USER','ava26@gatech.edu','sophomore','Computer Science'),
-	('brain11','urmom','USER','brain11@gatech.edu','freshman',NULL),
-	('brain12','urpasswordissoobvi','USER','brain12@gatech.edu','senior','Computational Media'),
-	('brain17','urthiccaf','USER','brain17@gatech.edu','freshman',NULL),
-	('brain4','urdumb','USER','brain4@gatech.edu','sophomore',NULL),
-	('brain5','urmom','USER','brain5@gatech.edu','freshman','Business Administration'),
-	('drake10','urmom','USER','drake10@gatech.edu','freshman',NULL),
-	('drake22','urepidermisisshowing','USER','drake22@gatech.edu','senior',NULL),
-	('future14','urstupid','USER','future14@gatech.edu','freshman','Mechanical Engineering'),
-	('future25','urmom','USER','future25@gatech.edu','senior','Chemical and Biomolecular Engineering'),
-	('future7','urthiccaf','USER','future7@gatech.edu','freshman','Economics'),
+	('ava26','urstupid','USER','ava26@gatech.edu','Sophomore','Computer Science'),
+	('brain10','lol','USER','brain10@gatech.edu','Junior','Computer Science'),
+	('brain11','urmom','USER','brain11@gatech.edu',NULL,NULL),
+	('brain12','urpasswordissoobvi','USER','brain12@gatech.edu','Senior','Computational Media'),
+	('brain17','urthiccaf','USER','brain17@gatech.edu',NULL,NULL),
+	('brain4','urdumb','USER','brain4@gatech.edu',NULL,NULL),
+	('brain5','urmom','USER','brain5@gatech.edu','Freshman','Business Administration'),
+	('drake10','urmom','USER','drake10@gatech.edu',NULL,NULL),
+	('drake22','urepidermisisshowing','USER','drake22@gatech.edu',NULL,NULL),
+	('future14','urstupid','USER','future14@gatech.edu','Freshman','Mechanical Engineering'),
+	('future25','urmom','USER','future25@gatech.edu','Senior','Chemical and Biomolecular Engineering'),
+	('future7','urthiccaf','USER','future7@gatech.edu','Freshman','Economics'),
 	('future8','urpasswordissoobvi','ADMIN','future8@gatech.edu','',NULL),
-	('jacob27','uracow','USER','jacob27@gatech.edu','sophomore','Aerospace Engineering'),
+	('jacob27','uracow','USER','jacob27@gatech.edu','Junior','Computer Science'),
 	('jacob3','urdumb','ADMIN','jacob3@gatech.edu','',NULL),
-	('jacob6','urmom','USER','jacob6@gatech.edu','freshman','Industrial Engineering'),
-	('l4p4ance9','urpasswordissoobvi','USER','l4p4ance9@gatech.edu','freshman','Computer Science'),
-	('madeon19','urstupid','USER','madeon19@gatech.edu','sophomore','Computer Science'),
+	('jacob6','urmom','USER','jacob6@gatech.edu','Freshman','Industrial Engineering'),
+	('l4p4ance9','urpasswordissoobvi','USER','l4p4ance9@gatech.edu','Freshman','Computer Science'),
+	('madeon19','urstupid','USER','madeon19@gatech.edu','Sophomore','Computer Science'),
 	('mrgoogoo13','urmom','ADMIN','mrgoogoo13@gatech.edu','',NULL),
-	('mrgoogoo20','urstupid','USER','mrgoogoo20@gatech.edu','junior','Computer Science'),
+	('mrgoogoo20','urstupid','USER','mrgoogoo20@gatech.edu','Junior','International Affairs'),
 	('olivia18','urmom','ADMIN','olivia18@gatech.edu','',NULL),
 	('olivia23','uracow','ADMIN','olivia23@gatech.edu','',NULL),
-	('yummy15','urdumb','USER','yummy15@gatech.edu','freshman','Biomedical Engineering'),
-	('yummy16','urpasswordissoobvi','USER','yummy16@gatech.edu','freshman','Mechanical Engineering'),
-	('yummy21','urpasswordissoobvi','USER','yummy21@gatech.edu','sophomore','Physics'),
-	('yummy24','urepidermisisshowing','USER','yummy24@gatech.edu','sophomore','Business Administration');
+	('savage21','lol','USER','savage21@gatech.edu','Senior','Industrial Design'),
+	('yummy15','urdumb','USER','yummy15@gatech.edu','Senior','Biomedical Engineering'),
+	('yummy16','urpasswordissoobvi','USER','yummy16@gatech.edu','Freshman','Mechanical Engineering'),
+	('yummy21','urpasswordissoobvi','USER','yummy21@gatech.edu','Sophomore','Physics'),
+	('yummy24','urepidermisisshowing','USER','yummy24@gatech.edu','Sophomore','Business Administration'),
+	('yummy38','lol','USER','yummy38@gatech.edu','Junior','Computational Media');
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
@@ -661,7 +659,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 AS SELECT
    `apply`.`Project_Name` AS `project_name`,
    `user`.`Major` AS `major`,count(`user`.`Major`) AS `num_majors`
-FROM (`user` join `apply`) where (`user`.`Username` = `apply`.`Username`) group by `apply`.`Project_Name`,`user`.`Major` order by `apply`.`Project_Name`,`num_majors` desc;
+FROM (`user` join `apply`) where (`user`.`Username` = `apply`.`Username`) group by `apply`.`Project_Name`,`user`.`Major` order by `apply`.`Project_Name`,`num_majors` desc,`user`.`Major`;
 
 
 # Replace placeholder table for main_project_view with correct view syntax
@@ -697,19 +695,7 @@ DROP TABLE `apply_percent_view`;
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `apply_percent_view`
 AS SELECT
    `apply`.`Project_Name` AS `project_name`,count(`apply`.`Project_Name`) AS `num_applicants`,(((select count(0)
-FROM `apply_accepted_view` where (`apply_accepted_view`.`project_name` = `apply`.`Project_Name`)) * 100) / count(`apply`.`Project_Name`)) AS `acceptance_rate` from `apply` group by `apply`.`Project_Name`;
-
-
-# Replace placeholder table for main_project_course_type_view with correct view syntax
-# ------------------------------------------------------------
-
-DROP TABLE `main_project_course_type_view`;
-
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `main_project_course_type_view`
-AS SELECT
-   `projecttable`.`Name` AS `Name`,
-   `projecttable`.`Type` AS `Type`
-FROM (select distinct `CARTESIAN`.`Name` AS `Name`,`projecttype`.`Type` AS `Type` from (`phase3`.`project` `CARTESIAN` join (select 'Project' AS `Type`) `ProjectType`)) `ProjectTable` union (select distinct `CARTESIAN`.`Name` AS `Name`,`coursetype`.`Type` AS `Type` from (`phase3`.`course` `CARTESIAN` join (select 'Course' AS `Type`) `CourseType`)) order by `Name`;
+FROM `apply_accepted_view` where (`apply_accepted_view`.`project_name` = `apply`.`Project_Name`)) * 100) / count(`apply`.`Project_Name`)) AS `acceptance_rate` from `apply` group by `apply`.`Project_Name` order by `acceptance_rate` desc;
 
 
 # Replace placeholder table for main_view with correct view syntax
