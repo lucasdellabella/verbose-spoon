@@ -26,16 +26,16 @@
         (f/form-to [:post "/add-project"]
           [:div
             (f/label :projectname "Project Name:")
-            (f/text-field :projectname)]
+            (f/text-field {:required ""} :projectname)]
           [:div
             (f/label :advisorname "Advisor:")
-            (f/text-field :advisorname)]
+            (f/text-field {:required ""} :advisorname)]
           [:div
             (f/label :advisoremail "Advisor Email:")
-            (f/text-field :advisoremail)]
+            (f/text-field {:required ""} :advisoremail)]
           [:div
             (f/label :description "Description:")
-            (f/text-area :description)]
+            (f/text-area {:required ""} :description)]
           [:div {:id "category"}
             (f/label :category "Category:")
             (f/drop-down :category (fetch-category-list))
@@ -45,7 +45,7 @@
             (f/drop-down :designation (fetch-designation-list))]
           [:div
             (f/label :numstudents "Estimated # of students")
-            (f/text-field :numstudents)] ;; need JS to make sure input is number]
+            (f/text-field {:required ""} :numstudents)] ;; need JS to make sure input is number]
           [:div
             (f/label :majorreq "Major Requirement:")
             (f/drop-down :majorreq (conj (fetch-major-list) ""))]

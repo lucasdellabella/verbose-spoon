@@ -28,17 +28,17 @@
               [:td
                 (f/label :coursenum "Course Number:")]
               [:td
-                (f/text-field :coursenum)]]
+                (f/text-field {:required ""} :coursenum)]]
             [:tr
               [:td
                 (f/label :coursename "Course Name:")]
               [:td
-                (f/text-field :coursename)]]
+                (f/text-field {:required ""} :coursename)]]
             [:tr
               [:td
                 (f/label :instructor "Instructor:")]
               [:td
-                (f/text-field :instructor)]]
+                (f/text-field {:required ""} :instructor)]]
             [:tr
               [:td
                 (f/label :designation "Designation:")]
@@ -54,9 +54,8 @@
               [:td
                 (f/label :numstudents "Estimated Num Students")]
               [:td
-                (f/text-field :numstudents)]]]
+                (f/text-field {:required ""} :numstudents)]]]
             [:div
               (f/submit-button "Submit")])
           [:a {:href "/choose-functionality"}
-            [:button "Back"]]
-              ]]))
+            [:button "Back"]]]]))
