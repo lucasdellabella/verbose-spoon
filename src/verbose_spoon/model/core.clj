@@ -74,8 +74,8 @@
   (clojure.string/split s #"\|"))
 
 (defn accept-reject-application [{:strs [submission-type application]}]
-  (let [[username project] (split-application-info application)]
-    (if (= "Accept" submission-type)
-      (q/view-applications-accept username project)
-      (q/view-applications-reject username project))
-    (str [username project])))
+  (let [[username project status] (split-application-info application)]
+    (cond
+      (or (= "Accepted" status) (= "Rejected" status)) "You can only accept or reject pending applications"
+      (= "Accept" submission-type) (q/view-applications-accept username project)
+      :else (q/view-applications-reject username project))))

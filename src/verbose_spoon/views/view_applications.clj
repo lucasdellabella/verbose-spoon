@@ -5,7 +5,7 @@
 
 (defn app-row [project major year status username]
   [:tr
-    [:td (f/radio-button :application "false" (format "%s|%s" username project))]
+    [:td (f/radio-button :application "false" (format "%s|%s|%s" username project status))]
     [:td project]
     [:td major]
     [:td year]
