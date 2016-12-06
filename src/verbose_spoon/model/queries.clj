@@ -219,7 +219,9 @@
                     (= itype "Project") (str query-part (conj-where-or-and "Main_View.Type = 'Project' "))
                     (= itype "Course") (str query-part (conj-where-or-and "Main_View.Type = 'Course' "))
                     :else query-part)
-        query-part (str query-part (format (conj-where-or-and "Main_View.Category_Name = '%s' " "AND ") (first categories)))
+        query-part (if (empty? categories)
+                     query-part
+                     (str query-part (format (conj-where-or-and "Main_View.Category_Name = '%s' " "AND ") (first categories))))
         categories (rest categories)
         query-part (reduce #(str %1 (format (conj-where-or-and "Main_View.Category_Name = '%s' " "OR ") %2)) query-part categories)
         query-final (str query-part (conj-where-or-and "Main_View.Name LIKE '%") title "%'")
