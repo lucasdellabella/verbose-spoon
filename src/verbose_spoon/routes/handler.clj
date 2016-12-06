@@ -59,7 +59,7 @@
                                         (redirect "/choose-functionality")))
   (POST "/add-project" req (do (insert-project (:params req))
                                (redirect "/choose-functionality")))
-  (POST "/edit-profile" req (do (update-profile (:params req) @current-user) (redirect "/edit-profile")))
+  (POST "/edit-profile" req (do (update-profile (:params req) @current-user)))
   ;(POST "/main" req ())
   (POST "/view-apply-project/:project_name" req (do (update-apply-project (-> req :route-params :project_name) @current-user)))
   (POST "/view-applications" req (do (accept-reject-application (:params req))

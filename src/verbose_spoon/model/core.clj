@@ -1,5 +1,6 @@
 (ns verbose-spoon.model.core
   (:require [ring.util.response :refer [response]]
+            [ring.util.response :refer [response redirect]]
             [verbose-spoon.model.queries :as q]))
 
 (defonce gatech-email-regex #"([a-zA-Z0-9]+)([\.{1}])?([a-zA-Z0-9]+)\@gatech([\.])edu")
@@ -14,7 +15,7 @@
   (cond
     (seq (q/check-user-name-exists-query username)) (response "The username already exists!")
     (not (re-find gatech-email-regex email)) (response "The email must be a gatech email!")
-    (seq (q/check-user-email-exists-query email)) (response "This account already exists!")
+    (seq (q/check-user-email-exists-query email)) (response "This email already exists!")
     (= password "") (response "Password cannot be empty!")
     (= username "") (response "Username cannot be empty!")
     (not= password confirmpassword) (response "Passwords don't match!")
@@ -57,8 +58,8 @@
     (dorun (map (partial q/insert-project-requirement-query projectname) reqs))))
 
 (defn update-profile [{:strs [year major]} username]
-  (q/update-profile-query major year username)
-  "~~Updated~~")
+  (if (or (= year "") (= major "")) (response "You must fill out a year and a major")
+    (do (q/update-profile-query major year username) (redirect "/edit-profile"))))
 
 ;view apply project
 (defn req-to-kvp [s]
