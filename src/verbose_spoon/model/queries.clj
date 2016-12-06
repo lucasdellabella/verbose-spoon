@@ -151,6 +151,47 @@
   (j/query mysql-db [(format "SELECT * FROM User WHERE Gt_Email='%s'" email)]))
 ;End registration
 
+(defn build-subtables [conj-where-or-and designation major year categories itype]
+  (let [mv "SELECT DISTINCT Main_View.Name, Course_Num, Main_View.Designation_name, Main_View.Category_Name, Main_View.Requirement_Type, Main_View.Type FROM Main_View LEFT OUTER JOIN Course ON Main_View.Name = Course.Name "
+        major-sub "(SELECT * FROM Main_View WHERE Requirement_Type='M:%s') m "
+        year-sub "(SELECT * FROM Main_View WHERE Requirement_Type='Y:%s') y "
+        need-where? (if (or designation major year categories itype) true nil)]
+  (cond
+    (and (nil? major) (nil? year)) mv
+    (nil? major) (str mv "," (format year-sub year) (if need-where?
+                                                      (conj-where-or-and "Main_View.Name = y.Name ")
+                                                      "Main_View.Name = y.Name "))
+    (nil? year) (str mv "," (format major-sub major) (if need-where?
+                                                       (conj-where-or-and "Main_View.Name = m.Name ")
+                                                       "Main_View.Name = m.Name "))
+    :else (str mv ","
+               (format major-sub major) ","
+               (format year-sub year)
+               (if need-where?
+                 (conj-where-or-and "Main_View.Name = m.Name AND Main_View.Name = y.Name ")
+                 "Main_View.Name = m.Name AND Main_View.Name = y.Name ")))))
+
+;; cover the multiple where clause case
+(defn populate-main-query [title designation major year categories itype]
+  (let [conj-where-or-and (let [where-added (atom false)]
+                            (fn tmp ([clause term] (str (if @where-added term (do (reset! where-added true) "WHERE ")) clause))
+                                    ([clause] (tmp clause "AND "))))
+        designation (if (= designation "") nil designation)
+        major (if (= major "") nil major)
+        year (if (= year "") nil year)
+        categories (if (empty? categories) nil categories)
+        itype (if (= itype "Both") nil itype)
+        query-part (build-subtables conj-where-or-and designation major year categories itype)
+        query-part (if designation (format (str query-part (conj-where-or-and "Main_View.Designation_name = '%s' ")) designation) query-part)
+        query-part (cond
+                    (= itype "Project") (str query-part (conj-where-or-and "Main_View.Type = 'Project' "))
+                    (= itype "Course") (str query-part (conj-where-or-and "Main_View.Type = 'Course' "))
+                    :else query-part)
+        query-part (reduce #(str %1 (format (conj-where-or-and "Main_View.Category_Name = '%s' " "OR ") %2)) query-part categories)
+        query-final (str query-part (conj-where-or-and "Main_View.Name LIKE '%") title "%'")]
+    (println query-final)
+    (j/query mysql-db [query-final])))
+
 (defn wrap-quotes [variable]
   (if (= "NULL" variable)
     variable

@@ -15,6 +15,7 @@
                                               creds-correct?
                                               attempt-to-register
                                               accept-reject-application]]
+            [verbose-spoon.model.queries :refer [populate-main-query]]
             [verbose-spoon.views [registration :as registration]
                                  [login :as login]
                                  [main :as main]
@@ -36,7 +37,7 @@
 (defroutes routes
   (GET "/login" [] (login/page)) ;;Put your login page here
   (GET "/registration" [] (registration/page))
-  (GET "/main" [] (main/page))
+  (GET "/main" req (main/page (:params req)))
   (GET "/me" [] (me/page))
   (GET "/edit-profile" [] (edit-profile/page @current-user))
   (GET "/my-application" [] (my-application/page @current-user))
@@ -57,8 +58,9 @@
                                (redirect "/choose-functionality")))
   (POST "/edit-profile" req (do (update-profile (:params req) @current-user)
                                 (redirect "/me")))
-  ;(POST "/main" req ())
-  (POST "/view-apply-project/:project_name" req (do (update-apply-project (-> req :route-params :project_name) @current-user) (redirect "/main")))
+  (POST "/main" req (populate-main-query))
+  (POST "/view-apply-project/:project_name" req (do (update-apply-project (-> req :route-params :project_name) @current-user)
+                                                    (redirect "/main")))
   (POST "/view-applications" req (do (accept-reject-application (:params req))
                                      (redirect "/choose-functionality")))
   ;; if attempt to register fails, don't redirect to login

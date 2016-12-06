@@ -2,7 +2,17 @@
   (:require [hiccup.page :refer [html5 include-js]]
             [hiccup.form :as f]
             [hiccup.element :as e]
-            [verbose-spoon.model.core :refer [fetch-major-list fetch-category-list fetch-designation-list]]))
+            [cemerick.url :refer [url-encode]]
+            [verbose-spoon.model.core :refer [take-categories fetch-major-list fetch-category-list fetch-designation-list]]
+            [verbose-spoon.model.queries :refer [populate-main-query]]))
+
+(defn table-entry [iname icourse itype]
+  [:tr
+   [:td [:a {:href (if (= itype "Course")
+                     (format "/view-course/%s" (url-encode icourse))
+                     (format "/view-apply-project/%s" (url-encode iname)))} [:button "View"]]]
+   [:td iname]
+   [:td itype]])
 
 ; Move these functions outta here
 (defn format-categories []
@@ -12,7 +22,12 @@
   (str "addCategory(['" (format-categories) "'])"))
 
 (defn page
-  []
+  [{:strs [title designation major year itype] :as params}]
+  (let [categories (-> params take-categories vals set)
+        main-query-results (when-not (empty? params) (populate-main-query title designation major year categories itype))
+        cleaned-main-query-results (remove empty? main-query-results)
+        formatted-tuples (seq (set (map (fn [{n :name, c :course_num, t :type}] (table-entry n c t)) cleaned-main-query-results)))
+        table (vec (conj formatted-tuples [:tr [:th "View"] [:th "Name"] [:th "Type"]] :table))]
   (html5
     [:head
       [:title "Main Page"]
@@ -23,36 +38,30 @@
         [:a {:href "/me"}
           [:button "Me"]]]
       [:div
-        (f/form-to [:post ""]
+        (f/form-to [:get "/main"]
           [:div {:id "category"}
               (f/label :title "Title:")
               (f/text-field :title)
               (f/label :category "Category:")
-              (f/drop-down :category-drop (fetch-category-list))
+              (f/drop-down :category (conj (fetch-category-list) ""))
               [:a {:onclick (create-categories-js-func) :href "#"} "Add new Category"]]
           [:div
               (f/label :designation "Designation:")
-              (f/drop-down :designation-drop (fetch-designation-list))]
+              (f/drop-down :designation (conj (fetch-designation-list) ""))]
           [:div
               (f/label :major "Major:")
-              (f/drop-down :major (fetch-major-list))]
+              (f/drop-down :major (conj (fetch-major-list) ""))]
           [:div
               (f/label :year "Year:")
-              (f/drop-down :year ["Freshman", "Sophomore", "Junior", "Senior"])
-              (f/label :project "Project")
-              (f/radio-button :project)
-              (f/label :project "Course")
-              (f/radio-button :project)
-              (f/label :project "Both")
-              (f/radio-button {:checked "checked"} :project)]
+              (f/drop-down :year ["", "Freshman", "Sophomore", "Junior", "Senior"])
+              (f/label :itype "Project")
+              (f/radio-button :itype "true" "Project")
+              (f/label :itype "Course")
+              (f/radio-button :itype "true" "Course")
+              (f/label :itype "Both")
+              (f/radio-button {:checked "checked"} :itype "true" "Both")]
           [:div
               (f/submit-button "Apply Filter")
               (f/reset-button "Reset")])
-        [:table
-          [:tr
-            [:th "Name"]
-            [:th "Type"]]
-          [:a {:href "/me"}
-            [:tr
-              [:td "Sample Name"]
-              [:td "Sample Type"]]]]]]))
+        table
+          [:a {:href "/me"}]]])))
