@@ -1,7 +1,9 @@
 (ns verbose-spoon.views.view-application-report
   (:require [hiccup.page :refer [html5]]
             [hiccup.form :as f]
-            [verbose-spoon.model.queries :refer [view-application-report-query]]
+            [verbose-spoon.model.queries :refer [view-application-report-query
+            view-application-report-num-applications-query
+            view-application-report-num-accepted-query]]
             [verbose-spoon.views.core :refer [commacat]]))
 
 
@@ -42,6 +44,7 @@
         [:title "View Application Report Page"]]
       [:body
         [:h1 "Application Report"]
+        [:h3 (format "%s Applications, %s Accepted" (:count (first (view-application-report-num-applications-query))) (:count (first (view-application-report-num-accepted-query))))]
         (wrap-table view-application-report-results)
         [:a {:href "/choose-functionality"}
           [:button "Back"]]

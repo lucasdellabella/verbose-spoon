@@ -94,16 +94,17 @@
 
 ;view-application-report
 (defn view-application-report-query []
-  (j/query mysql-db ["SELECT * FROM major_concat_view NATURAL JOIN apply_percent_view"]))
+  (j/query mysql-db ["SELECT * FROM major_concat_view NATURAL JOIN apply_percent_view ORDER BY acceptance_rate DESC"]))
 
-; (defn view-application-report-num-applications-query [name]
-;   (j/query mysql-db [(format "SELECT COUNT(*) as Count FROM Apply WHERE Project_name = '%s'" name)]))
+(defn view-application-report-num-applications-query []
+  (j/query mysql-db ["SELECT COUNT(*) as Count FROM Apply"]))
 ;
-; (defn view-application-report-num-accepted-query [name]
-;   (j/query mysql-db [(format "SELECT COUNT(*) as Count FROM Apply WHERE Project_name = '%s' AND Status = 'Accepted'" name)]))
+(defn view-application-report-num-accepted-query []
+  (j/query mysql-db ["SELECT COUNT(*) as Count FROM Apply WHERE Status = 'Accepted'"]))
 ;
 ; (defn view-application-report-top-majors-query [name]
 ;   (j/query mysql-db [(format "SELECT Major, COUNT(Major) as Count FROM Apply NATURAL JOIN User WHERE Project_name = '%s' GROUP BY Major HAVING COUNT(Major) > 0 ORDER BY 2 DESC LIMIT 3" name)]))
+; end view-application Report
 
 
 (defn insert-project-query [projectname description advisoremail advisorname numstudents designation]
