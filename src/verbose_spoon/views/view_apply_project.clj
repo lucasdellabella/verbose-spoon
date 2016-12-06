@@ -48,10 +48,11 @@
               (f/label :numstudents "Estimated Num Students:")]
             [:td
               (f/label :numstudents est_num_students)]]]
+          [:a #_{:href "/main"}
+            (f/submit-button "Apply")]
+        )
         [:a {:href "/main"}
           [:button "Back"]]
-        [:a #_{:href "/main"}
-          (f/submit-button "Apply")])
       ]
     )
   )

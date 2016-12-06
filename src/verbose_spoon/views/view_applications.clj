@@ -13,6 +13,7 @@
 
 (defn wrap-table [l]
     (vec (conj l [:tr
+                  [:th "   "]
                   [:th "Project"]
                   [:th "Applicant Major"]
                   [:th "Applicant Year"]
@@ -28,7 +29,7 @@
       [:head
         [:title "View Applications"]]
       [:body
-        [:h1 "My Application"]
+        [:h1 "View Applications"]
         (f/form-to [:post "/view-applications"]
           (wrap-table view-applications-results)
           [:div

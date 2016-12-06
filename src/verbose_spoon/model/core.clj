@@ -7,6 +7,9 @@
 (defn creds-correct? [username password]
   (= password (-> username q/user-password-query first :password)))
 
+(defn is-admin? [username]
+  (= "ADMIN" (-> username q/admin-query first :type)))
+
 (defn attempt-to-register [{:strs [username password confirmpassword email]}]
   (cond
     (seq (q/check-user-name-exists-query username)) (response "The username already exists!")
@@ -59,7 +62,14 @@
 
 ;; NOTIFY USER WHEN USER HAS ALREADY BEEN REJECTED
 (defn update-apply-project [projectname currentuser]
-  (when-not (empty? (q/check-rejected-application-query projectname currentuser)) (q/update-apply-query projectname currentuser)))
+  ;(when-not (empty? (q/check-rejected-application-query projectname currentuser)) (q/update-apply-query projectname currentuser))
+  (cond
+    (seq (q/check-already-applied-application-query projectname currentuser))(response "You have already been applied for this project. Please check your application statuses.")
+    (seq (q/check-rejected-application-query projectname currentuser))(response "You have already been rejected for this project. You cannot apply again")
+    (empty? (q/check-user-year-major-exists-query currentuser)) (response "Your year and major do not exist! Please register your year and major on the Edit Profile Page.")
+    (seq (q/check-requirements-application-query projectname currentuser)) (response "You do not meet all the requirements for this project.")
+    :else (do (q/update-apply-query projectname currentuser)(response "Successful Application!"))
+    ))
 
 (defn split-application-info [s]
   (clojure.string/split s #"\|"))

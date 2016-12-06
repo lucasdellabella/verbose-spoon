@@ -11,7 +11,7 @@
 (Class/forName "com.mysql.jdbc.Driver")
 
 (defn today []
-  (.format (java.text.SimpleDateFormat. "yyyy-MM-dd") (new java.util.Date)))
+  (str (.format (java.text.SimpleDateFormat. "yyyy-MM-dd") (new java.util.Date))))
 
 ; for edit-profile
 (defn user-major-query [username]
@@ -36,12 +36,13 @@
 (defn category-query []
   (j/query mysql-db ["SELECT Name FROM CATEGORY"]))
 
+; login
 (defn user-password-query [username]
   (j/query mysql-db [(format "SELECT Username, Password FROM User WHERE Username='%s'"
                              username)]))
-
-;(defn department-for-major-query [major]
-;  (j/query mysql-db [(format "SELECT Dept_Name FROM Major WHERE Major_Name = '%s'" major)]))
+(defn admin-query [username]
+  (j/query mysql-db [(format "SELECT Type FROM User WHERE Username='%s'" username)]))
+; end login
 
 (defn department-query []
   (j/query mysql-db ["SELECT Dept_Name FROM DEPARTMENT"]))
@@ -127,16 +128,36 @@
 (defn update-profile-query [major year username]
   (j/execute! mysql-db [(format "UPDATE User SET Major='%s', Year='%s' WHERE Username='%s'" major year username)]))
 
+;View Apply Project
+(defn check-already-applied-application-query [projectname username]
+  (j/query mysql-db [(format "SELECT * FROM Apply WHERE Project_name = '%s' AND Username='%s' AND (Status='Accepted' OR Status='Pending')"
+                            projectname
+                            username)]))
 (defn check-rejected-application-query [projectname username]
   (j/query mysql-db [(format "SELECT * FROM Apply WHERE Project_name='%s' AND Username='%s' AND Status='Rejected'"
                              projectname
                              username)]))
 
+(defn check-user-year-major-exists-query [username]
+  (j/query mysql-db [(format "SELECT * FROM User WHERE Username='%s' AND Year IS NOT NULL AND Major IS NOT NULL"
+                              username)]))
+
 (defn update-apply-query [projectname username]
-  (j/query mysql-db [(format "INSERT INTO Apply VALUES('%s', '%s', %s, 'Pending')"
-                             projectname
-                             username
-                             (today))]))
+  (j/execute! mysql-db [(format "INSERT INTO Apply VALUES('%s', '%s', '%s', 'Pending')"
+                            username
+                            projectname
+                            (today))]))
+
+(defn get-major-year-dept-application-query [username]
+  (j/query mysql-db [(format "SELECT Major, Year, Dept_name FROM User JOIN Major ON User.major = Major.Major_name WHERE Username='%s'" username)]))
+
+(defn check-requirements-application-query [projectname username]
+  (let [{:keys [major year dept_name]} (first (get-major-year-dept-application-query username))]
+    (j/query mysql-db [(format "SELECT * FROM Requirement LEFT JOIN (SELECT * FROM Requirement WHERE (Requirement_type = 'M:%s' OR Requirement_type = 'Y:%s' OR Requirement_type = 'D:%s')) AS Requirement2 ON Requirement.Requirement_type = Requirement2.Requirement_type WHERE Requirement2.Requirement_Type IS NULL AND Requirement.Project_name = '%s'" major year dept_name projectname)])))
+
+
+;End View Apply Project
+
 ;Registration
 (defn insert-register-user [username password email]
   (j/execute! mysql-db [(format "INSERT INTO User VALUES('%s', '%s', 'USER', '%s', NULL, NULL)"

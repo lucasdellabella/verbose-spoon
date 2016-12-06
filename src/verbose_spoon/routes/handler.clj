@@ -14,7 +14,8 @@
                                               update-apply-project
                                               creds-correct?
                                               attempt-to-register
-                                              accept-reject-application]]
+                                              accept-reject-application
+                                              is-admin?]]
             [verbose-spoon.model.queries :refer [populate-main-query]]
             [verbose-spoon.views [registration :as registration]
                                  [login :as login]
@@ -32,6 +33,8 @@
                                  [add-course :as add-course]]))
 
 (def current-user (atom nil))
+(def admin-bool? (atom false))
+(def admin-pages (atom (set ["/view-project-report" "/choose-functionality" "/view-applications" "/view-application-report" "/add-project" "/add-course"])))
 
 ;; Later we could structure routes more restfully
 (defroutes routes
@@ -56,32 +59,42 @@
                                         (redirect "/choose-functionality")))
   (POST "/add-project" req (do (insert-project (:params req))
                                (redirect "/choose-functionality")))
-  (POST "/edit-profile" req (do (update-profile (:params req) @current-user)
-                                (redirect "/me")))
-  (POST "/main" req (populate-main-query))
-  (POST "/view-apply-project/:project_name" req (do (update-apply-project (-> req :route-params :project_name) @current-user)
-                                                    (redirect "/main")))
+  (POST "/edit-profile" req (do (update-profile (:params req) @current-user) (redirect "/edit-profile")))
+  ;(POST "/main" req ())
+  (POST "/view-apply-project/:project_name" req (do (update-apply-project (-> req :route-params :project_name) @current-user)))
   (POST "/view-applications" req (do (accept-reject-application (:params req))
-                                     (redirect "/choose-functionality")))
+                                     (redirect "/view-applications")))
   ;; if attempt to register fails, don't redirect to login
   (POST "/registration" req (do (attempt-to-register (:params req))))
   (POST "/login" req (let [username (-> req :params (get "username"))
                            password (-> req :params (get "password"))]
-                       (if (creds-correct? username password)
-                         (do (reset! current-user username)
-                             (redirect "/main"))
-                         ;; should probably notify
-                         (redirect "/login"))))
+                        (if (creds-correct? username password)
+                          (do (reset! current-user username)
+                            (if (is-admin? username)
+                              (do
+                                (reset! admin-bool? true)
+                                (redirect "/choose-functionality"))
+                              (do
+                                (reset! admin-bool? false)
+                                (redirect "/main"))))
+                          (response "Incorrect username password combination"))))
+                         ;; should probably notify)))
   (route/resources "/")
   (route/not-found "<h1>Page not found</h1>"))
 
 (defn wrap-auth [handler]
   (fn [request]
-    (if (or (some? @current-user)
-            (-> request :uri (= "/registration"))
-            (-> request :uri (= "/login")))
-      (handler request)
-      (response "Please log in to access this page."))))
+    (cond
+      (or (-> request :uri (= "/registration"))
+            (-> request :uri (= "/login")))(handler request)
+      (and (some? @current-user)
+          @admin-bool?
+          (@admin-pages (:uri request)))(handler request)
+      (and (some? @current-user)
+          (not @admin-bool?)
+          (not (@admin-pages (:uri request))))(handler request)
+      :else (response "Access Denied: Please log in to access this page"))))
+
 
 (def handler
   (-> #'routes

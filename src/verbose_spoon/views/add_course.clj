@@ -55,7 +55,8 @@
                 (f/label :numstudents "Estimated Num Students")]
               [:td
                 (f/text-field :numstudents)]]]
-          [:div
-              [:a {:href "/choose-functionality"}
-                [:button "Back"]]
-              (f/submit-button "Submit")])]]))
+            [:div
+              (f/submit-button "Submit")])
+          [:a {:href "/choose-functionality"}
+            [:button "Back"]]
+              ]]))

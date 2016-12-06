@@ -15,7 +15,7 @@
 (defn page
   [username]
   (let [my-application-results
-        (map (fn [{:keys [date project_name status]}] (app-row date project_name status)) 
+        (map (fn [{:keys [date project_name status]}] (app-row date project_name status))
              (my-application-query username))]
     (html5
       [:head

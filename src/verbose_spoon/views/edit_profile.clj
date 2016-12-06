@@ -51,14 +51,13 @@
         [:tr
           [:td
            [:a {:href "/me"}
-            (f/submit-button "Submit")]]
-          [:td
-           [:a {:href "/me"}
-            [:button "Back"]]]]])
-    [:script (format "setMajor('%s'); setYear('%s'); setDepartment('%s');"
-      (pr-str (user-major-query username))
-      (pr-str (user-year-query username))
-      (pr-str (department-only-query username ))
-      )]]]))
+            (f/submit-button "Submit")]]]])
+      [:a {:href "/me"}
+        [:button "Back"]]
+      [:script (format "setMajor('%s'); setYear('%s'); setDepartment('%s');"
+        (pr-str (user-major-query username))
+        (pr-str (user-year-query username))
+        (pr-str (department-only-query username ))
+        )]]]))
             ; (pr-str (department-only-query ((user-major-query username))
 ; setDepartment('%s');
