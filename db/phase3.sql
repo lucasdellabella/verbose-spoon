@@ -7,7 +7,7 @@
 #
 # Host: localhost (MySQL 5.7.9)
 # Database: phase3
-# Generation Time: 2016-12-06 08:13:35 +0000
+# Generation Time: 2016-12-06 08:20:22 +0000
 # ************************************************************
 
 
@@ -544,7 +544,7 @@ LOCK TABLES `requirement` WRITE;
 
 INSERT INTO `requirement` (`Project_Name`, `Requirement_Type`)
 VALUES
-	('Bench Building','D:Mechanical Engineering'),
+	('Bench Building','M:Mechanical Engineering'),
 	('Bench Building','Y:Freshman'),
 	('BuzzMovie','D:College of Computing'),
 	('BuzzMovie','M:Computer Science'),
