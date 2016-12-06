@@ -219,14 +219,15 @@
                     (= itype "Project") (str query-part (conj-where-or-and "Main_View.Type = 'Project' "))
                     (= itype "Course") (str query-part (conj-where-or-and "Main_View.Type = 'Course' "))
                     :else query-part)
-        query-part (if (empty? categories)
+        dont-use-parens (empty? categories)
+        query-part (if dont-use-parens
                      query-part
                      (str query-part (format (conj-where-or-and "(Main_View.Category_Name = '%s' " "AND ") (first categories))))
         categories (rest categories)
-        query-part (str (reduce #(str %1 (format (conj-where-or-and "Main_View.Category_Name = '%s' " "OR ") %2)) query-part categories) ")")
+        query-part (if dont-use-parens query-part (str (reduce #(str %1 (format (conj-where-or-and "Main_View.Category_Name = '%s' " "OR ") %2)) query-part categories) ") "))
         query-final (str query-part (conj-where-or-and "Main_View.Name LIKE '%") title "%'")
+        tmp (clojure.pprint/pprint query-final)
         query-results (concat dept-req-tuples (j/query mysql-db [query-final]))]
-    (clojure.pprint/pprint query-final)
     query-results))
 
 (defn wrap-quotes [variable]
