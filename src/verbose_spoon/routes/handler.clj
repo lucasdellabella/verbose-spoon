@@ -55,15 +55,12 @@
   (GET "/add-course" [] (add-course/page))
   ;; POST routes for the pages with forms
   ;; 1. Validate inputs 2. Run appropriate query
-  (POST "/add-course" req (do (insert-course (:params req))
-                                        (redirect "/choose-functionality")))
-  (POST "/add-project" req (do (insert-project (:params req))
-                               (redirect "/choose-functionality")))
+  (POST "/add-course" req (do (insert-course (:params req))))
+  (POST "/add-project" req (do (insert-project (:params req))))
   (POST "/edit-profile" req (do (update-profile (:params req) @current-user)))
   ;(POST "/main" req ())
   (POST "/view-apply-project/:project_name" req (do (update-apply-project (-> req :route-params :project_name) @current-user)))
-  (POST "/view-applications" req (do (accept-reject-application (:params req))
-                                     (redirect "/view-applications")))
+  (POST "/view-applications" req (do (accept-reject-application (:params req))))
   ;; if attempt to register fails, don't redirect to login
   (POST "/registration" req (do (attempt-to-register (:params req))))
   (POST "/login" req (let [username (-> req :params (get "username"))

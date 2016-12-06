@@ -40,7 +40,8 @@
 (defn insert-course [{:strs [coursenum coursename instructor designation numstudents] :as params}]
   (let [categories (-> params take-categories vals set)]
     (q/insert-course-query coursenum coursename numstudents instructor designation)
-    (dorun (map (partial q/insert-course-is-category-query coursenum) categories))))
+    (dorun (map (partial q/insert-course-is-category-query coursenum) categories))
+    (response "Successfully added course!")))
 
 ;(defn apply-project [{:strs []}])
 
@@ -55,7 +56,8 @@
                           (when-not (empty? departmentreq) (str "D:" departmentreq))]))]
     (q/insert-project-query projectname description numstudents advisorname advisoremail designation)
     (dorun (map (partial q/insert-project-is-category-query projectname) categories))
-    (dorun (map (partial q/insert-project-requirement-query projectname) reqs))))
+    (dorun (map (partial q/insert-project-requirement-query projectname) reqs))
+    (response "Successfully added project!")))
 
 (defn update-profile [{:strs [year major]} username]
   (if (or (= year "") (= major "")) (response "You must fill out a year and a major")
@@ -97,6 +99,6 @@
 (defn accept-reject-application [{:strs [submission-type application]}]
   (let [[username project status] (split-application-info application)]
     (cond
-      (or (= "Accepted" status) (= "Rejected" status)) "You can only accept or reject pending applications"
-      (= "Accept" submission-type) (q/view-applications-accept username project)
-      :else (q/view-applications-reject username project))))
+      (or (= "Accepted" status) (= "Rejected" status)) (response "You can only accept or reject pending applications")
+      (= "Accept" submission-type) (do (q/view-applications-accept username project) (redirect "/view-applications"))
+      :else (do (q/view-applications-reject username project) (redirect "/view-applications")))))
