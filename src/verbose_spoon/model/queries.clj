@@ -221,9 +221,9 @@
                     :else query-part)
         query-part (if (empty? categories)
                      query-part
-                     (str query-part (format (conj-where-or-and "Main_View.Category_Name = '%s' " "AND ") (first categories))))
+                     (str query-part (format (conj-where-or-and "(Main_View.Category_Name = '%s' " "AND ") (first categories))))
         categories (rest categories)
-        query-part (reduce #(str %1 (format (conj-where-or-and "Main_View.Category_Name = '%s' " "OR ") %2)) query-part categories)
+        query-part (str (reduce #(str %1 (format (conj-where-or-and "Main_View.Category_Name = '%s' " "OR ") %2)) query-part categories) ")")
         query-final (str query-part (conj-where-or-and "Main_View.Name LIKE '%") title "%'")
         query-results (concat dept-req-tuples (j/query mysql-db [query-final]))]
     (clojure.pprint/pprint query-final)
