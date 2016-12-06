@@ -37,12 +37,12 @@
            [:td
              (f/label :major "Major:")]
            [:td
-             (f/drop-down {:onchange "getDepartment(this)" :id "major-dropdown"} :major (fetch-major-list))]]
+             (f/drop-down {:onchange "getDepartment(this)" :id "major-dropdown"} :major (conj (fetch-major-list) ""))]]
         [:tr
           [:td
             (f/label :year "Year:")]
           [:td
-            (f/drop-down {:id "year-dropdown"} :year ["Freshman", "Sophomore", "Junior", "Senior"])]]
+            (f/drop-down {:id "year-dropdown"} :year ["", "Freshman", "Sophomore", "Junior", "Senior"])]]
         [:tr
           [:td
             (f/label :department "Department:")]
