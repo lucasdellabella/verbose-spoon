@@ -210,10 +210,15 @@
         dept-req-projects (when-not (nil? major) (j/query mysql-db [(format "SELECT * FROM Requirement WHERE Requirement_type='D:%s'" (first dept))]))
         dept-req-tuples (map (fn [{:keys [project_name requirement_type]}] {:name project_name
                                                                             :course_num nil
-                                                                            :designation_name nil
-                                                                            :category_name nil
+                                                                            :designation_name (first (map :designation_name (j/query mysql-db [(format "SELECT Designation_Name FROM Project WHERE Name='%s'" project_name)])))
+                                                                            :category_names (vec (map :category_name (j/query mysql-db [(format "SELECT Category_Name FROM Project_is_Category WHERE Project_Name='%s'" project_name)])))
                                                                             :requirement_type requirement_type
                                                                             :type "Project"}) dept-req-projects)
+        dept-req-with-filter (filter (fn [{:keys [name course_num designation_name category_names requirement_type type]}]
+                                       (and (or (nil? designation) (= designation designation_name))
+                                            (or (empty? categories) (not-empty (clojure.set/intersection (set categories) (set category_names))))
+                                            (if year (not-empty (j/query mysql-db [(format "SELECT Requirement_type FROM Requirement WHERE Project_Name='%s' AND Requirement_Type='Y:%s'" name year)])) true)
+                                            (re-find (re-pattern (format ".*%s.*" title)) name))) dept-req-tuples)
         query-part (build-subtables conj-where-or-and designation major year categories itype)
         query-part (if designation (format (str query-part (conj-where-or-and "Main_View.Designation_name = '%s' ")) designation) query-part)
         query-part (cond
@@ -228,7 +233,7 @@
         query-part (if dont-use-parens query-part (str (reduce #(str %1 (format (conj-where-or-and "Main_View.Category_Name = '%s' " "OR ") %2)) query-part categories) ") "))
         query-final (str query-part (conj-where-or-and "Main_View.Name LIKE '%") title "%'")
         tmp (clojure.pprint/pprint query-final)
-        query-results (concat dept-req-tuples (j/query mysql-db [query-final]))]
+        query-results (concat dept-req-with-filter (j/query mysql-db [query-final]))]
     query-results))
 
 (defn wrap-quotes [variable]
