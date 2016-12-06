@@ -60,16 +60,35 @@
   (q/update-profile-query major year username)
   "~~Updated~~")
 
-;; NOTIFY USER WHEN USER HAS ALREADY BEEN REJECTED
+;view apply project
+(defn req-to-kvp [s]
+  (condp = (first s)
+    \Y {:year (subs s 2)}
+    \D {:dept_name (subs s 2)}
+    \M {:major (subs s 2)}))
+
+(defn map-for-requirements [requirements]
+  (reduce (fn [agg cur] (merge agg (req-to-kvp cur))) {} requirements))
+
+(defn check-requirements? [projectname currentuser]
+  (let [{:keys [major year dept_name]} (first (q/get-major-year-dept-application-query currentuser))
+        {pmajor :major, pyear :year, pdept_name :dept_name} (map-for-requirements (map :requirement_type (q/view-project-requirement-query projectname)))]
+        (cond (and pyear (not= pyear year)) false
+              (and (and pmajor pdept_name) (and (not= pmajor major) (not= pdept_name dept_name))) false
+              (and (and pmajor (nil? pdept_name)) (and (not= pmajor major))) false
+              (and (and pdept_name (nil? pmajor)) (and (not= pdept_name dept_name))) false
+        :else true)))
+
 (defn update-apply-project [projectname currentuser]
-  ;(when-not (empty? (q/check-rejected-application-query projectname currentuser)) (q/update-apply-query projectname currentuser))
   (cond
     (seq (q/check-already-applied-application-query projectname currentuser))(response "You have already been applied for this project. Please check your application statuses.")
     (seq (q/check-rejected-application-query projectname currentuser))(response "You have already been rejected for this project. You cannot apply again")
     (empty? (q/check-user-year-major-exists-query currentuser)) (response "Your year and major do not exist! Please register your year and major on the Edit Profile Page.")
-    (seq (q/check-requirements-application-query projectname currentuser)) (response "You do not meet all the requirements for this project.")
+    (not (check-requirements? projectname currentuser)) (response "You do not meet all the requirements for this project.")
     :else (do (q/update-apply-query projectname currentuser)(response "Successful Application!"))
     ))
+
+;end view apply project
 
 (defn split-application-info [s]
   (clojure.string/split s #"\|"))
