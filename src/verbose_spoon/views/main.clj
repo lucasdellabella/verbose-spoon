@@ -28,7 +28,6 @@
         cleaned-main-query-results (remove empty? main-query-results)
         formatted-tuples (seq (set (map (fn [{n :name, c :course_num, t :type}] (table-entry n c t)) cleaned-main-query-results)))
         table (vec (conj formatted-tuples [:tr [:th "View"] [:th "Name"] [:th "Type"]] :table))]
-    (println main-query-results)
   (html5
     [:head
       [:title "Main Page"]
