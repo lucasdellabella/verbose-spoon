@@ -179,7 +179,7 @@
         designation (if (= designation "") nil designation)
         major (if (= major "") nil major)
         year (if (= year "") nil year)
-        categories (if (empty? categories) nil categories)
+        categories (remove (partial = "") categories)
         itype (if (= itype "Both") nil itype)
         query-part (build-subtables conj-where-or-and designation major year categories itype)
         query-part (if designation (format (str query-part (conj-where-or-and "Main_View.Designation_name = '%s' ")) designation) query-part)
